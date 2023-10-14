@@ -1,0 +1,6 @@
+<?php
+
+$OAUTH_CLIENT_ID='5e9abc24-501c-448a-92f5-d708406a0424';
+$OAUTH_CLIENT_SECRET='tcHRv0Pjeqxrf4b-_Jx0U8kpM_';
+
+?>
