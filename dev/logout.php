@@ -1,33 +1,10 @@
 <?php
 
-# Start server session
 session_start();
-include '../php/mwa.php';
 
 
-# Generate secret for individual session (Server Side Security)
-$secret = generateNonce(64);
-$hashed_secret = hash('sha512',$secret);
-# Store secret in session
-$_SESSION['secret']=$secret;
+session_destroy();
 
-# Generate nonce for OAuth call (Provider Side Security)
-$nonce = generateNonce(64);
-
-// SETUP LOGIN TO Ory Hydra
-
-# Set OAuth Parameters
-$response_type="code";
-$client_id=$OAUTH_CLIENT_ID;
-$scope=array('profile','openid');
-$redirect_url='https://www.metawarrior.army/dev/callback.php'; // Redirect URI is preconfigured with the provider. In this example we use login.php
-$state=urlencode("token=".$hashed_secret);
-
-// Complete Google OAuth URL
-# This is the URL we send the user to for signing-in/signing-up
-$oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$response_type."&redirect_uri=".$redirect_url."&scope=openid&state=".$state;
-
-// Below is the HTML the user will interact with.
 ?>
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="auto">
@@ -135,7 +112,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
       <h3 class="float-md-start mb-0">MetaWarrior Army</h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
-		<a class="nav-link fw-bold py-1 px-0 active" href="/dev/login.php">Login</a>
+		<a class="nav-link fw-bold py-1 px-0 active" href="/dev/callback.php">logout</a>
         <!--
         <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
         <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
@@ -145,10 +122,9 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
   </header>
 
   <main class="px-3">
-    <h1>Login to MetaWarrior Army</h1>
-    <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army</p>
-    <p class="lead">
-      <a href="<?php echo $oauth_url; ?>" class="btn btn-lg btn-light fw-bold border-white bg-white">Login</a>
+    <h1>Logged Out</h1>
+	<p class="lead">
+      <a href="/dev/login.php" class="btn btn-lg btn-light fw-bold border-white bg-white">Log back in</a>
     </p>
   </main>
 

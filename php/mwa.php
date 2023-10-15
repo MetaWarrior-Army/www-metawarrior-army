@@ -1,4 +1,5 @@
 <?php
+require 'config.php';
 
 # Generate Nonce for Auth
 function generateNonce($n)
@@ -11,5 +12,8 @@ function generateNonce($n)
     }
     return $randomString;
 }
+
+
+
 
 ?>
