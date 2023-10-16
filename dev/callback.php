@@ -78,6 +78,16 @@ if(!isset($_SESSION['userinfo'])){
 }
 
 
+// Setup Logout with hydra oauth2
+
+# Set OAuth Parameters
+$hashed_secret = hash('sha512',$_SESSION['secret']);
+$state=urlencode("token=".$hashed_secret);
+
+// Complete Google OAuth URL
+# This is the URL we send the user to for signing-in/signing-up
+$oauth_logout_url = $OAUTH_LOGOUT_ENDPOINT."?client_id=".$OAUTH_CLIENT_ID."&id_token_hint=".$_SESSION['access_token']->id_token."&post_logout_redirect_uri=".urlencode('https://www.metawarrior.army/dev/logout.php')."&state=".$state;
+
 ?>
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="auto">
@@ -197,6 +207,14 @@ if(!isset($_SESSION['userinfo'])){
 
   <main class="px-3">
     <h1>Welcome to MetaWarrior Army</h1>
+    <p>
+      <?php
+        //var_dump($_SESSION['access_token']);
+
+
+      ?>
+
+    </p>
     <p class="lead">---</p>
 	<?php
 	if(isset($_SESSION['userinfo'])){
@@ -210,7 +228,7 @@ if(!isset($_SESSION['userinfo'])){
 
 
     <p class="lead">
-      <a href="/dev/logout.php" class="btn btn-lg btn-light fw-bold border-white bg-white">Logout</a>
+      <a href="<?php echo $oauth_logout_url; ?>" class="btn btn-lg btn-light fw-bold border-white bg-white">Logout</a>
     </p>
 
   </main>
