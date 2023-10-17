@@ -19,13 +19,14 @@ $nonce = generateNonce(64);
 # Set OAuth Parameters
 $response_type="code";
 $client_id=$OAUTH_CLIENT_ID;
-$scope=array('profile','openid');
+$scope = "openid profile";
+
 $redirect_url='https://www.metawarrior.army/dev/callback.php'; // Redirect URI is preconfigured with the provider. In this example we use login.php
 $state=urlencode("token=".$hashed_secret);
 
 // Complete Google OAuth URL
 # This is the URL we send the user to for signing-in/signing-up
-$oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$response_type."&redirect_uri=".$redirect_url."&scope=openid&state=".$state;
+$oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$response_type."&redirect_uri=".$redirect_url."&scope=".$scope."&state=".$state;
 
 // Below is the HTML the user will interact with.
 ?>

@@ -14,7 +14,9 @@ if(!isset($_SESSION['userinfo'])){
 		if(isset($_GET['code']) && isset($_GET['scope']) && isset($_GET['state']) && isset($_SESSION['secret'])){
 			$hashed_secret = hash('sha512',$_SESSION['secret']);
 			$code = $_GET['code'];
-			$scope = $_GET['scope'];
+			// This is a string ex: "scope1 scope2 scope3" etc. 
+      $scope = $_GET['scope'];
+      
 			
 			// find hashed secret
 			preg_match('/token=(.*)/', $_GET['state'], $re);
@@ -33,7 +35,7 @@ if(!isset($_SESSION['userinfo'])){
 				'client_id' => $OAUTH_CLIENT_ID,
 				'code' => $_GET['code'],
 				'grant_type' => 'authorization_code',
-				'redirect_uri' => 'https://www.metawarrior.army/dev/callback.php'
+				'redirect_uri' => 'https://www.metawarrior.army/dev/callback.php',
 			];
 			$crl = curl_init($OAUTH_TOKEN_ENDPOINT);
 			curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
