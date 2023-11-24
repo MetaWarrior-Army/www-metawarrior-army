@@ -1,6 +1,6 @@
 <?php
 
-include '../php/mwa.php';
+include './php/mwa.php';
 
 error_log("TEST");
 
@@ -44,7 +44,7 @@ if(!isset($_SESSION['access_token'])){
       'client_id' => $OAUTH_CLIENT_ID,
       'code' => $_GET['code'],
       'grant_type' => 'authorization_code',
-      'redirect_uri' => 'https://www.metawarrior.army/dev/callback.php',
+      'redirect_uri' => $OAUTH_REDIRECT_URL,
     ];
     $crl = curl_init($OAUTH_TOKEN_ENDPOINT);
     curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
@@ -133,9 +133,9 @@ if(isset($userinfo)){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="admin">
-    <title>MetaWarrior Army</title>
+    <title>User Profile - MetaWarrior Army</title>
 
-    <link rel="canonical" href="https://www.metawarrior.army/dev/login.php">
+    <link rel="canonical" href="https://www.metawarrior.army/profile.php">
 
     <!-- Favicons -->
 
@@ -160,7 +160,7 @@ if(isset($userinfo)){
       <h3 class="float-md-start mb-0">MetaWarrior Army</h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
-		<a class="nav-link fw-bold py-1 px-0 active" href="/dev/callback.php">callback</a>
+		<a class="nav-link fw-bold py-1 px-0 active" href="/dev/callback.php">Profile</a>
       </nav>
     </div>
   </header>
@@ -194,12 +194,6 @@ if(isset($userinfo)){
 
           <!-- Team Thumb-->
           <svg width="80" height="80" data-jdenticon-value="<?php echo $userinfo->sub ?>"></svg>  
-
-          <?php 
-            //if(!$userObj->username){
-            //  include('components/usernameForm.html');
-            //}
-          ?>
 
           <script src="/js/chooseUsername.js"></script>
 

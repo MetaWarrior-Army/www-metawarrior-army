@@ -1,0 +1,21 @@
+<!-- Choose Username Form -->
+<form action="/dev/callback.php" method="POST" id="usernameForm">
+    <p class="small">You haven't chosen a username yet.<p>
+    <p class="small">In order to use all of the services you will need to choose a username.</p>
+    <p class="small">Your username cannot be changed and is associated with your wallet address.</p>
+
+    <div class="input-group mb-3">
+      <button class="btn btn-outline-secondary" type="button" id="submit">Submit</button>
+      <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" onchange="screenUsername(this);">
+      <span class="input-group-text bg-dark text-light" id="basic-addon2">@MetaWarrior.Army</span>
+    </div>
+
+    <input type="hidden" name="submit" value="true">
+    <input type="hidden" name="isUser" value="true">
+    <div id="usernameFormError">
+      
+
+    </div>
+  
+  </form>
+
