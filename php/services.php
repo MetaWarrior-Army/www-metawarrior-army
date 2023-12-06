@@ -10,7 +10,7 @@
                     <!-- <p class="lead">Securely stored email with 1GB of storage.</p> -->
                     <?php
                       if($_SESSION['userinfo']->email_active){
-                        echo '<a href="https://mail.metawarrior.army" class="btn btn-outline-info mt-3">';
+                        echo '<a href="https://webmail.metawarrior.army" class="btn btn-outline-info mt-3">';
                       }
                       else{
                         echo '<a href="#" class="btn disabled btn-outline-secondary mt-3">';
