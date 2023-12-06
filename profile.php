@@ -12,7 +12,7 @@ error_log("SESSION STARTED");
 // This will validate our session or redirect our user to login
 // This page depends on an active session. We prefer the access_token for getting the /userinfo from the OAuth server
 
-if(!isset($_SESSION['access_token'])){
+if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error)){
   error_log("NO ACCESS TOKEN");
   // we don't have an access_token
   // do we have what we need to get an access_token?
@@ -71,6 +71,8 @@ if(!isset($_SESSION['access_token'])){
   }
 }
 
+
+//var_dump($_SESSION['access_token']);
 // Userinfo for address and validating token
 $header = ['Authorization: Bearer '.$_SESSION['access_token']->access_token, 'Content-type: application/json'];
 $crl = curl_init($OAUTH_USERINFO_ENDPOINT);
@@ -90,7 +92,7 @@ catch(Exception $e){
 // Setup Logout with hydra oauth2
 $hashed_secret = hash('sha512',$_SESSION['secret']);
 $state=urlencode("token=".$hashed_secret);
-$oauth_logout_url = $OAUTH_LOGOUT_ENDPOINT."?client_id=".$OAUTH_CLIENT_ID."&id_token_hint=".$_SESSION['access_token']->id_token."&post_logout_redirect_uri=".urlencode('https://www.metawarrior.army/dev/logout.php')."&state=".$state;
+$oauth_logout_url = $OAUTH_LOGOUT_ENDPOINT."?client_id=".$OAUTH_CLIENT_ID."&id_token_hint=".$_SESSION['access_token']->id_token."&post_logout_redirect_uri=".urlencode('https://www.metawarrior.army/logout')."&state=".$state;
 
 // Setup shortened address
 $front_addr = substr($userinfo->sub,0,5);
@@ -105,6 +107,8 @@ if(isset($userinfo)){
   ];
   $header = ['Authorization: Bearer '.$_SESSION['access_token']->access_token, 'Content-type: application/json'];
   $crl = curl_init($GET_USER_API_URL);
+  //OIDC User Info
+  //$crl = curl_init("https://auth.metawarrior.army/userinfo");
   curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
   curl_setopt($crl, CURLOPT_POST,true);
   curl_setopt($crl, CURLOPT_POSTFIELDS,json_encode($getUserPost));
@@ -118,6 +122,7 @@ if(isset($userinfo)){
   }
 
   $userObj = json_decode($get_usr_resp);
+
   //var_dump($userObj);
   $_SESSION['userinfo'] = $userObj;
 }
@@ -160,29 +165,20 @@ if(isset($userinfo)){
       <h3 class="float-md-start mb-0">MetaWarrior Army</h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
-		<a class="nav-link fw-bold py-1 px-0 active" href="/dev/callback.php">Profile</a>
+		<a class="nav-link fw-bold py-1 px-0 active" href="/profile">Profile</a>
+        <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="<?php echo $oauth_logout_url; ?>">Logout
       </nav>
     </div>
   </header>
 
-  <main class="px-3">
+  <main class="px-0">
 
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-sm-8 col-lg-6">
         <!-- Section Heading-->
         <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-          <h3><u>Welcome</u> <br><?php
-            // manipulate the user's wallet address here
-            //echo($userinfo->sub);
-            if($userObj->username){
-              echo $userObj->username;
-            }
-            else{
-              echo($nick_addr);
-            }
-            
-          ?></h3>
+          <h3><u>Welcome</u></h3>
           <div class="line"></div>
         </div>
       </div>
@@ -203,7 +199,7 @@ if(isset($userinfo)){
 
               if($userObj->username){
                 if($userObj->nft_0_tx){
-                  echo "<br><a href=\"https://testnet-zkevm.polygonscan.com/tx/".$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-light\">Proof of Membership</a>";
+                  echo "<br><a href=\"https://testnet-zkevm.polygonscan.com/tx/".$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-light\">NFT Proof of Membership</a>";
 
                 }
                 else{
@@ -211,22 +207,32 @@ if(isset($userinfo)){
                 }
               }
               else{
-                echo "<br>Welcome to MetaWarrior Army. <br>To become a Member you must choose a username and <b><a href=\"https://nft.metawarrior.army\" class=\"link-light\">Mint</a></b> your NFT.";
+                echo "<br>Welcome to MetaWarrior Army. <br>To become a Member you must choose a username and <b><a href=\"https://nft.metawarrior.army\" class=\"link-info\">Mint your NFT</a></b>.";
               }
 
           ?>
                     
-            <!-- Social Info-->
-            <div class="social-info"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
-          
-          <!-- Team Details-->
-          <div class="single_advisor_details_info">
-            <h3 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "[]";}?></h3>  
-            <h6><?php echo($nick_addr); ?></h6>
             
+          <!-- User Block -->
+          <div class="single_advisor_details_info">
+            <h2 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>  
+            <h6><?php echo($nick_addr); ?></h6>
             <p>:::</p>
+            <hr>
+
+            <?php 
+              //var_dump($_SESSION['userinfo']);
+
+              if($userObj->nft_0_tx){
+                include('php/services.php');
+              }
+              
+            ?>
+
             <?php
 
+              // Print the $userObj
+              /*
               if($userObj->username){
                 echo "<p><b><u>Your User Object: </u></b></p>";
                 echo "<p className=\"small\">";
@@ -234,12 +240,13 @@ if(isset($userinfo)){
                   echo "$value : $key<br>";
                   //var_dump($value);
                 }
+                //var_dump($_SESSION['access_token']->id_token);
               }
+              */
 
             ?>
-            </p>
+            
             <p class="lead">
-              <a href="<?php echo $oauth_logout_url; ?>" class="btn btn-lg btn-light fw-bold border-white bg-white">Logout</a>
             </p>
 
           </div>
@@ -249,17 +256,15 @@ if(isset($userinfo)){
     </div>
   </div>
 
-
-    <p class="lead">---</p>
+    <footer class="mt-5 text-white-50">
+      <?php
+        include('php/footer.php');
+      ?>
+    </footer>
 
   </main>
 
-  <footer class="mt-auto text-white-50">
-    <!-- footer text example -->
-    <!--
-    <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
-    -->
-  </footer>
+  
 </div>
 
 <!-- Bootstrap JS -->

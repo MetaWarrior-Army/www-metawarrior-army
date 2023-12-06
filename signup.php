@@ -31,7 +31,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
 // Below is the HTML the user will interact with.
 ?>
 <!doctype html>
-<html lang="en" class="h-100" data-bs-theme="auto">
+<html lang="en">
   <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
@@ -131,12 +131,12 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
   <body class="d-flex h-100 text-center text-bg-dark">
     
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="mb-auto">
+  <header class="mb-auto mb-3">
     <div>
-      <h3 class="float-md-start mb-0">MetaWarrior Army</h3>
+      <h3 class="float-md-start">MetaWarrior Army</h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
-		<a class="nav-link fw-bold py-1 px-0 active" href="/dev/login.php">Login</a>
+		<a class="nav-link fw-bold py-1 px-0 active" href="/signup">Signup</a>
         <!--
         <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
         <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
@@ -145,20 +145,68 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     </div>
   </header>
 
-  <main class="px-3">
-    <h1>Signup at MetaWarrior Army</h1>
-    <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army</p>
-    <p class="lead">
-      <a href="<?php echo $oauth_url; ?>" class="btn btn-lg btn-light fw-bold border-white bg-white">Signup</a>
-    </p>
+  <main class="px-0 mt-5">
+    <h1>Become a Member</h1>
+    <!-- <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army (MWA).</p> -->
+    <hr>
+
+    <div class=" text-center">
+    <!-- <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+    <h1 class="display-5 fw-bold text-body-emphasis">Centered hero</h1> -->
+    <div class="col-lg-6 mx-auto">
+      <p class="lead">Control your digital destiny in the MetaWarrior Army.</p>
+
+      <button type="button" class="btn btn-outline-info btn-lg px-4 mb-3" onclick="location.href='<?php echo $oauth_url; ?>'">Signup</button>
+      
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <p class="small">Use your Web3 wallet to sign up and become a member at MetaWarrior Army.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="container mt-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <p class="lead">Get Onboard!</p>
+        <p class="small">If you're familiar with crypto and blockchain technology but need a wallet, MWA recommends <b>MetaMask</b>.</p>
+      </div>
+      <div class="col-lg-6">
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://metamask.io');">Get MetaMask</button>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <!-- <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container px-0 py-0">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-0">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <p class="lead">Discover a New World.</p>
+        <p class="small">If you're unfamiliar with Web3, what it is or how you use it don't worry!</p>
+      </div>
+      <div class="col-lg-6">
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://learn.metamask.io/');">Learn More</button>
+      
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-5 text-white-50">
+    <!-- footer text example -->
+    
+    <?php
+      include('php/footer.php');
+    ?>
+    
+  </footer>
+
   </main>
 
-  <footer class="mt-auto text-white-50">
-    <!-- footer text example -->
-    <!--
-    <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
-    -->
-  </footer>
+  
 </div>
 
 <!-- Bootstrap JS -->
