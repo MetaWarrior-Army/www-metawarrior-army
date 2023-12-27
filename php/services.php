@@ -1,5 +1,5 @@
 <div class="container px-4 py-5" id="hanging-icons">
-              <h3 class="pb-2 border-bottom">Member Services</h3>
+              <!-- <h3 class="pb-2 border-bottom">Member Services</h3> -->
               <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
                 <div class="col d-flex align-items-start">
                   <div class="icon-square d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
@@ -10,7 +10,7 @@
                     <!-- <p class="lead">Securely stored email with 1GB of storage.</p> -->
                     <?php
                       if($_SESSION['userinfo']->email_active){
-                        echo '<a href="https://webmail.metawarrior.army" class="btn btn-outline-info mt-3">';
+                        echo '<a href="https://mail.metawarrior.army" class="btn btn-outline-info mt-3">';
                       }
                       else{
                         echo '<a href="#" class="btn disabled btn-outline-secondary mt-3">';
@@ -27,9 +27,16 @@
                   <div>
                     <h5 class="text-secondary">Social</h5>
                     <!-- <p class="small">Mastodon federated social media & news.</p> -->
-                    <p class="small">Coming soon!</p>
-                    <a href="#" class="btn disabled btn-outline-secondary mt-3">
-                      Login
+                    <!-- <p class="small">Coming soon!</p> -->
+                    <?php
+                      if($_SESSION['userinfo']->email_active){
+                        echo '<a href="https://mastodon.metawarrior.army" class="btn btn-outline-info mt-3">';
+                      }
+                      else{
+                        echo '<a href="#" class="btn disabled btn-outline-secondary mt-3">';
+                      }
+                    ?>
+                    Login
                     </a>
                   </div>
                 </div>

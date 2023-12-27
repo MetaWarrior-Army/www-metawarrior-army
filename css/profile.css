@@ -1,6 +1,6 @@
 .single_advisor_profile {
     position: relative;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
     -webkit-transition-duration: 500ms;
     transition-duration: 500ms;
     z-index: 1;
@@ -12,7 +12,7 @@
     position: relative;
     z-index: 1;
     border-radius: 15px 15px 0 0;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 30px 30px 0 30px;
     background-color: #3f43fd;
     overflow: hidden;
@@ -23,7 +23,7 @@
     position: absolute;
     width: 150%;
     height: 80px;
-    bottom: -45px;
+    /* bottom: -45px; */
     left: -25%;
     content: "";
     background-color: #ffffff;
@@ -33,14 +33,14 @@
 @media only screen and (max-width: 575px) {
     .single_advisor_profile .advisor_thumb::after {
         height: 160px;
-        bottom: -90px;
+        /* bottom: -90px; */
     }
 }
 .single_advisor_profile .advisor_thumb .social-info {
     position: absolute;
     z-index: 1;
     width: 100%;
-    bottom: 0;
+    /* bottom: 0;*/
     right: 30px;
     text-align: right;
 }
@@ -75,7 +75,7 @@
     right: 30px;
 }
 .single_advisor_profile .single_advisor_details_info h6 {
-    margin-bottom: 0.25rem;
+    /* margin-bottom: 0.25rem; */
     -webkit-transition-duration: 500ms;
     transition-duration: 500ms;
 }
@@ -87,7 +87,7 @@
 .single_advisor_profile .single_advisor_details_info p {
     -webkit-transition-duration: 500ms;
     transition-duration: 500ms;
-    margin-bottom: 0;
+    /* margin-bottom: 0; */
     font-size: 14px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {

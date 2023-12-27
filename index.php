@@ -103,7 +103,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-      <h3 class="float-md-start mb-0">MetaWarrior Army</h3>
+      <h3 class="float-md-start mb-0">:::</h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/">Home</a>
         <!--
@@ -115,10 +115,17 @@
   </header>
 
   <main class="px-3">
-    <h1>MetaWarrior Army.</h1>
-    <p class="lead">A short paragraph about MetaWarrior Army.</p>
-    <p class="lead">
-      <a href="/" class="btn btn-lg btn-light fw-bold border-white bg-white">Coming Soon</a>
+    <img src="/media/img/mwa_logo0.png" class="img-fluid p-3">
+
+
+
+    
+    <p class="lead">Defending Digital Freedom!</p>
+    <p class="small">In an era of proprietary behemoths, we stand as a fresh breath of autonomy. Our mission? To revolutionize the digital landscape through a range of technology products and services that break free from the constraints of centralization.</p>
+    <p class="small">At MetaWarrior Army, we are building more than just a technology company - we are shaping a community. A community driven by the spirit of self-governance and innovation, unshackled by the chains of traditional models. We unite under a common banner, leveraging the bleeding edge of digital assets, governance, artificial intelligence, and human creativity to transform our collective dreams into reality.</p>
+    <p class="small">As we grow and evolve, our community does too. With every step forward, we diligently seek opportunities to gradually decentralize management, empowering the collective to steer our course. </p>
+    <p class="small">
+      <a href="/" class="btn btn-lg btn-outline-light fw-bold">Coming Soon</a>
     </p>
   </main>
 

@@ -4,29 +4,52 @@
 session_start();
 include './php/mwa.php';
 
+$subscribed = false;
 
-# Generate secret for individual session (Server Side Security)
-$secret = generateNonce(64);
-$hashed_secret = hash('sha512',$secret);
-# Store secret in session
-$_SESSION['secret']=$secret;
+if($_POST['check']){
+  if($_POST['email']){
 
-# Generate nonce for OAuth call (Provider Side Security)
-$nonce = generateNonce(64);
+    // Get the name
+    $name_re = '/^(.*)@.*$/';
+    preg_match($name_re, $_POST['email'], $matches);
+    $name = $matches[1];
 
-// SETUP LOGIN TO Ory Hydra
 
-# Set OAuth Parameters
-$response_type="code";
-$client_id=$OAUTH_CLIENT_ID;
-$scope = "openid profile";
+    // We have an email address, let's POST to listmonk ;)
+    $listmonk_uri = $LISTMONK_API_URL."/api/subscribers";
+    //var_dump($listmonk_uri);
+    $data = [
+      'email' => $_POST['email'],
+      'name' => $name,
+      'status' => 'enabled',
+      'lists' => [$SUB_LIST],
+      'attribs' => ['source' => 'subscribe.php']
+    ];
+    //var_dump($data);
+    
+    $username = 'mwa';
+    $password = $LISTMONK_ADMIN_PASSWORD;
 
-$redirect_url=$OAUTH_REDIRECT_URL; // Redirect URI is preconfigured with the provider. In this example we use login.php
-$state=urlencode("token=".$hashed_secret);
+    $headers = array('Authorization: Basic '.base64_encode($username.':'.$password), 'Content-Type: application/json');
 
-// Complete Google OAuth URL
-# This is the URL we send the user to for signing-in/signing-up
-$oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$response_type."&redirect_uri=".$redirect_url."&scope=".$scope."&state=".$state;
+    $ch = curl_init($listmonk_uri);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    //curl_setopt($ch, CURLOPT_USERPWD, $username.':'.$password);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    $ret = json_decode(curl_exec($ch));
+
+    if($ret->data->id){
+      $subscribed = true;
+    }
+    else{
+      $subscribed = false;
+    }
+
+    curl_close($ch);
+  }
+}
 
 // Below is the HTML the user will interact with.
 ?>
@@ -39,9 +62,9 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="admin">
-    <title>Sign Up at MetaWarrior Army</title>
+    <title>Subscribe to MetaWarrior Army</title>
 
-    <link rel="canonical" href="https://www.metawarrior.army/signup.php">
+    <link rel="canonical" href="https://www.metawarrior.army/subscribe.php">
 
     
 
@@ -133,10 +156,10 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto mb-3">
     <div>
-      <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
+      <h3 class="float-md-start text-info">MetaWarrior Army</h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
-		<a class="nav-link fw-bold py-1 px-0 active" href="/signup">Signup</a>
+		<a class="nav-link fw-bold py-1 px-0 active text-info" href="/signup">Subscribe</a>
         <!--
         <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
         <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
@@ -145,55 +168,26 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     </div>
   </header>
 
-  <main class="px-0 mt-5">
-    <h1>Become a Member</h1>
+  <main class="px-3 mt-5">
+    <h1>Get the SITREP</h1>
+    <p class="lead">Sign up for updates and news on everything MetaWarrior Army.</p>
     <!-- <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army (MWA).</p> -->
     <hr>
 
-    <div class=" text-center">
-    <!-- <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="display-5 fw-bold text-body-emphasis">Centered hero</h1> -->
-    <div class="col-lg-6 mx-auto">
-      <p class="lead">Control your digital destiny in the MetaWarrior Army.</p>
+    <?php
+      if(!$subscribed){
+        include('php/subscribe_form.php');
+      }
+      else{
+        echo "<h4>Thanks for subscribing!</h4>";
+      }
 
-      <button type="button" class="btn btn-outline-light btn-lg px-4 mb-3" onclick="location.href='<?php echo $oauth_url; ?>'">Signup</button>
-      
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <p class="small">Use your Web3 wallet to sign up and become a member at MetaWarrior Army.</p>
-      </div>
-    </div>
-  </div>
 
-<div class="container mt-5">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-      <div class="col-10 col-sm-8 col-lg-6">
-        <p class="lead">Gear up!</p>
-        <p class="small">If you're familiar with crypto and blockchain technology but need a wallet, MWA recommends <b>MetaMask</b>.</p>
-      </div>
-      <div class="col-lg-6">
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://metamask.io');">Get MetaMask</button>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <!-- <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button> -->
-        </div>
-      </div>
-    </div>
-  </div>
+    ?>
 
-  <div class="container px-0 py-0">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-0">
-      <div class="col-10 col-sm-8 col-lg-6">
-        <p class="lead">Discover a New World.</p>
-        <p class="small">If you're unfamiliar with Web3, what it is or how you use it don't worry!</p>
-      </div>
-      <div class="col-lg-6">
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://learn.metamask.io/');">Learn More</button>
-      
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+    
 
   <footer class="mt-5 text-white-50">
     <!-- footer text example -->
@@ -211,6 +205,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="/js/subscribe.js"></script>
 
     </body>
 </html>

@@ -133,7 +133,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-      <h3 class="float-md-start mb-0">MetaWarrior Army</h3>
+      <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
 		<a class="nav-link fw-bold py-1 px-0 active" href="/login">Login</a>
@@ -149,7 +149,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     <h1>Login to MetaWarrior Army</h1>
     <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army</p>
     <p class="lead">
-      <a href="<?php echo $oauth_url; ?>" class="btn btn-lg btn-light fw-bold border-white bg-white">Login</a>
+      <a href="<?php echo $oauth_url; ?>" class="btn btn-lg btn-outline-light fw-bold">Login</a>
     </p>
   </main>
 

@@ -162,7 +162,7 @@ if(isset($userinfo)){
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-      <h3 class="float-md-start mb-0">MetaWarrior Army</h3>
+      <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
 		<a class="nav-link fw-bold py-1 px-0 active" href="/profile">Profile</a>
@@ -191,15 +191,13 @@ if(isset($userinfo)){
           <!-- Team Thumb-->
           <svg width="80" height="80" data-jdenticon-value="<?php echo $userinfo->sub ?>"></svg>  
 
-          <script src="/js/chooseUsername.js"></script>
-
           <!-- Choose Username Form -->
 
           <?php
 
               if($userObj->username){
                 if($userObj->nft_0_tx){
-                  echo "<br><a href=\"https://testnet-zkevm.polygonscan.com/tx/".$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-light\">NFT Proof of Membership</a>";
+                  echo "<br><a href=\"https://testnet-zkevm.polygonscan.com/tx/".$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-info\">NFT Proof of Membership</a>";
 
                 }
                 else{
@@ -229,30 +227,11 @@ if(isset($userinfo)){
               
             ?>
 
-            <?php
-
-              // Print the $userObj
-              /*
-              if($userObj->username){
-                echo "<p><b><u>Your User Object: </u></b></p>";
-                echo "<p className=\"small\">";
-                foreach($userObj as $key => $value){
-                  echo "$value : $key<br>";
-                  //var_dump($value);
-                }
-                //var_dump($_SESSION['access_token']->id_token);
-              }
-              */
-
-            ?>
-            
             <p class="lead">
             </p>
-
           </div>
         </div>
       </div>
-      
     </div>
   </div>
 
@@ -263,13 +242,10 @@ if(isset($userinfo)){
     </footer>
 
   </main>
-
-  
 </div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<script src="/js/chooseUsername.js"></script>
 
     </body>
 </html>
