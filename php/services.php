@@ -47,8 +47,15 @@
                   <div>
                     <h5 class="text-secondary">Chat</h5>
                     <!-- <p class="small">Matrix secure, federated chat with voice & video calls.</p> -->
-                    <p class="small">Coming soon!</p>
-                    <a href="#" class="btn disabled btn-outline-secondary mt-3">
+                    <!-- <p class="small">Coming soon!</p> -->
+                    <?php
+                      if($_SESSION['userinfo']->email_active){
+                        echo '<a href="https://matrix.metawarrior.army" class="btn btn-outline-info mt-3">';
+                      }
+                      else{
+                        echo '<a href="#" class="btn disabled btn-outline-secondary mt-3">';
+                      }
+                    ?>
                       Login
                     </a>
                   </div>
@@ -60,7 +67,7 @@
                   <div>
                     <h5 class="text-secondary">Discourse</h5>
                     <!-- <p class="small">A discussion board for proposals, support, and other thoughts from fellow members.</p> -->
-                    <p class="small">Coming soon!</p>
+                    <!-- <p class="small">Coming soon!</p> -->
                     <?php
                       if($_SESSION['userinfo']->email_active){
                         echo '<a href="https://discourse.metawarrior.army" class="btn btn-outline-info mt-3">';

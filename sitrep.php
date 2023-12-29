@@ -53,8 +53,9 @@ if($_POST['check']){
 
 // Below is the HTML the user will interact with.
 ?>
+
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100" data-bs-theme="auto">
   <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
@@ -62,16 +63,11 @@ if($_POST['check']){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="admin">
-    <title>Subscribe to MetaWarrior Army</title>
+    <title>MetaWarrior Army</title>
 
-    <link rel="canonical" href="https://www.metawarrior.army/subscribe.php">
-
-    
-
-    <!-- Favicons -->
+    <link rel="canonical" href="https://www.metawarrior.army/index.php">
 
     <meta name="theme-color" content="#712cf9">
-
 
     <style>
       .bd-placeholder-img {
@@ -146,61 +142,51 @@ if($_POST['check']){
         z-index: 1500;
       }
     </style>
-
-    
+        
     <!-- Custom styles for this template -->
     <link href="/css/index.css" rel="stylesheet">
   </head>
   <body class="d-flex h-100 text-center text-bg-dark">
     
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="mb-auto mb-3">
+
+    
+<div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="mb-auto">
     <div>
-      <h3 class="float-md-start text-info">MetaWarrior Army</h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
+    <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>      <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
-		<a class="nav-link fw-bold py-1 px-0 active text-info" href="/signup">Subscribe</a>
+        <a class="nav-link fw-bold py-1 px-0 active" href="/sitrep">SITREP</a>
+        <a class="nav-link fw-bold py-1 px-0" href="/roadmap">Roadmap</a>
         <!--
-        <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
         <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
         -->
       </nav>
     </div>
   </header>
 
-  <main class="px-3 mt-5">
-    <h1>Get the SITREP</h1>
-    <p class="lead">Sign up for updates and news on everything MetaWarrior Army.</p>
-    <!-- <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army (MWA).</p> -->
-    <hr>
+  <main class="px-3">
+  
 
-    <?php
-      if(!$subscribed){
-        include('php/subscribe_form.php');
-      }
-      else{
-        echo "<h4>Thanks for subscribing!</h4>";
-      }
+    <div class="container-fluid bg-dark text-light w-75 mx-auto shadow">
+      <h1 class="mt-5">Get the SITREP</h1>
+      <p class="lead">Sign up for updates and news on everything MetaWarrior Army.</p>
+      <?php
+        if(!$subscribed){
+          include('php/subscribe_form.php');
+        }
+        else{
+          echo "<h4 class=\"mb-3\">Thanks for subscribing!</h4>";
+        }
+      ?>
+    </div>
+  </main>
 
-
-    ?>
-
-
-
-    
-
-  <footer class="mt-5 text-white-50">
+  <footer class="mt-auto text-white-50">
     <!-- footer text example -->
-    
     <?php
       include('php/footer.php');
     ?>
-    
   </footer>
-
-  </main>
-
-  
 </div>
 
 <!-- Bootstrap JS -->

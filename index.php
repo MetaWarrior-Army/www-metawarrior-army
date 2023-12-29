@@ -11,88 +11,8 @@
 
     <link rel="canonical" href="https://www.metawarrior.army/index.php">
 
-    
-
-    <!-- Favicons -->
-
     <meta name="theme-color" content="#712cf9">
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        width: 100%;
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .btn-bd-primary {
-        --bd-violet-bg: #712cf9;
-        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-        --bs-btn-font-weight: 600;
-        --bs-btn-color: var(--bs-white);
-        --bs-btn-bg: var(--bd-violet-bg);
-        --bs-btn-border-color: var(--bd-violet-bg);
-        --bs-btn-hover-color: var(--bs-white);
-        --bs-btn-hover-bg: #6528e0;
-        --bs-btn-hover-border-color: #6528e0;
-        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-        --bs-btn-active-color: var(--bs-btn-hover-color);
-        --bs-btn-active-bg: #5a23c8;
-        --bs-btn-active-border-color: #5a23c8;
-      }
-      .bd-mode-toggle {
-        z-index: 1500;
-      }
-    </style>
-
-    
+      
     <!-- Custom styles for this template -->
     <link href="/css/index.css" rel="stylesheet">
   </head>
@@ -100,14 +20,14 @@
     
 
     
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-      <h3 class="float-md-start mb-0">:::</h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
+    <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>      <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/">Home</a>
+        <a class="nav-link fw-bold py-1 px-0" href="/sitrep">SITREP</a>
+        <a class="nav-link fw-bold py-1 px-0" href="/roadmap">Roadmap</a>
         <!--
-        <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
         <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
         -->
       </nav>
@@ -115,25 +35,26 @@
   </header>
 
   <main class="px-3">
-    <img src="/media/img/mwa_logo0.png" class="img-fluid p-3">
+  <!--<img src="/media/img/mwa_logo0.png" class="img-fluid  w-50 p-3">-->
 
-
-
-    
-    <p class="lead">Defending Digital Freedom!</p>
-    <p class="small">In an era of proprietary behemoths, we stand as a fresh breath of autonomy. Our mission? To revolutionize the digital landscape through a range of technology products and services that break free from the constraints of centralization.</p>
-    <p class="small">At MetaWarrior Army, we are building more than just a technology company - we are shaping a community. A community driven by the spirit of self-governance and innovation, unshackled by the chains of traditional models. We unite under a common banner, leveraging the bleeding edge of digital assets, governance, artificial intelligence, and human creativity to transform our collective dreams into reality.</p>
-    <p class="small">As we grow and evolve, our community does too. With every step forward, we diligently seek opportunities to gradually decentralize management, empowering the collective to steer our course. </p>
-    <p class="small">
-      <a href="/" class="btn btn-lg btn-outline-light fw-bold">Coming Soon</a>
-    </p>
+    <div class="card bg-dark text-light w-75 mx-auto shadow">
+      <p class="lead mt-3">Defending Digital Freedom!</p>
+      <div class="card-body">
+        <p class="small">In an era of proprietary behemoths, we stand as a fresh breath of autonomy. Our mission? To revolutionize the digital landscape through a range of technology products and services that break free from the constraints of centralization.</p>
+        <p class="small">At MetaWarrior Army, we are building more than just a technology company - we are shaping a community. A community driven by the spirit of self-governance and innovation, unshackled by the chains of traditional models. We unite under a common banner, leveraging the bleeding edge of digital assets, governance, artificial intelligence, and human creativity to transform our collective dreams into reality.</p>
+        <p class="small">As we grow and evolve, our community does too. With every step forward, we diligently seek opportunities to gradually decentralize governance, empowering the people to steer our course.</p>
+        <p class="small">
+          <a href="/sitrep" class="btn btn-lg btn-outline-light fw-bold">Get the SITREP</a>
+        </p>
+      </div>
+    </div>
   </main>
 
   <footer class="mt-auto text-white-50">
     <!-- footer text example -->
-    <!--
-    <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
-    -->
+    <?php
+      include('php/footer.php');
+    ?>
   </footer>
 </div>
 

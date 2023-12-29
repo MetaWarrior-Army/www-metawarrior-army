@@ -39,7 +39,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="admin">
-    <title>Sign Up at MetaWarrior Army</title>
+    <title>MetaWarrior Army - SignUp</title>
 
     <link rel="canonical" href="https://www.metawarrior.army/signup.php">
 
@@ -130,7 +130,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
   </head>
   <body class="d-flex h-100 text-center text-bg-dark">
     
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto mb-3">
     <div>
       <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
@@ -145,55 +145,60 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     </div>
   </header>
 
-  <main class="px-0 mt-5">
-    <h1>Become a Member</h1>
-    <!-- <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army (MWA).</p> -->
-    <hr>
+  <main class="px-0 mt-5 mb-5">
+    <div class="container-fluid w-50 rounded shadow">
+              <h1 class="mt-3">Become a Member</h1>
+              <!-- <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army (MWA).</p> -->
 
-    <div class=" text-center">
-    <!-- <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="display-5 fw-bold text-body-emphasis">Centered hero</h1> -->
-    <div class="col-lg-6 mx-auto">
-      <p class="lead">Control your digital destiny in the MetaWarrior Army.</p>
+              <div class="text-center">
+              <!-- <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+              <h1 class="display-5 fw-bold text-body-emphasis">Centered hero</h1> -->
+              <div class="col-lg-6 mx-auto">
+                <p class="lead">Control your digital destiny in the MetaWarrior Army.</p>
 
-      <button type="button" class="btn btn-outline-light btn-lg px-4 mb-3" onclick="location.href='<?php echo $oauth_url; ?>'">Signup</button>
-      
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <p class="small">Use your Web3 wallet to sign up and become a member at MetaWarrior Army.</p>
-      </div>
+                <button type="button" class="btn btn-outline-light btn-lg px-4 mb-3" onclick="location.href='<?php echo $oauth_url; ?>'">Signup</button>
+                
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                  <p class="small">Use your Web3 wallet to sign up and become a member at MetaWarrior Army.</p>
+                </div>
+              </div>
+            </div>
+            <hr>
+
+          <div class="container mt-5">
+              <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                  <p class="lead">Gear up!</p>
+                  <p class="small">If you're familiar with crypto and blockchain technology but need a wallet, MWA recommends <b>MetaMask</b>.</p>
+                </div>
+                <div class="col-lg-6">
+                  <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://metamask.io');">Get MetaMask</button>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <!-- <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="container px-0 py-0">
+              <div class="row flex-lg-row-reverse align-items-center g-5 py-0">
+                <div class="col-10 col-sm-8 col-lg-6">
+                  <p class="lead">Discover a New World.</p>
+                  <p class="small">If you're unfamiliar with Web3, what it is or how you use it, don't worry!</p>
+                </div>
+                <div class="col-lg-6">
+                  <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://learn.metamask.io/');">Learn More</button>
+                
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+  
     </div>
-  </div>
-
-<div class="container mt-5">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-      <div class="col-10 col-sm-8 col-lg-6">
-        <p class="lead">Gear up!</p>
-        <p class="small">If you're familiar with crypto and blockchain technology but need a wallet, MWA recommends <b>MetaMask</b>.</p>
-      </div>
-      <div class="col-lg-6">
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://metamask.io');">Get MetaMask</button>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <!-- <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button> -->
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container px-0 py-0">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-0">
-      <div class="col-10 col-sm-8 col-lg-6">
-        <p class="lead">Discover a New World.</p>
-        <p class="small">If you're unfamiliar with Web3, what it is or how you use it don't worry!</p>
-      </div>
-      <div class="col-lg-6">
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://learn.metamask.io/');">Learn More</button>
-      
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          
-        </div>
-      </div>
-    </div>
-  </div>
+  </main>
 
   <footer class="mt-5 text-white-50">
     <!-- footer text example -->
@@ -203,9 +208,6 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     ?>
     
   </footer>
-
-  </main>
-
   
 </div>
 

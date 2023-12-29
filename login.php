@@ -39,7 +39,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="admin">
-    <title>Login to MetaWarrior Army</title>
+    <title>MetaWarrior Army - Login</title>
 
     <link rel="canonical" href="https://www.metawarrior.army/login.php">
 
@@ -130,7 +130,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
   </head>
   <body class="d-flex h-100 text-center text-bg-dark">
     
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
       <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
@@ -146,18 +146,20 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
   </header>
 
   <main class="px-3">
-    <h1>Login to MetaWarrior Army</h1>
-    <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army</p>
-    <p class="lead">
-      <a href="<?php echo $oauth_url; ?>" class="btn btn-lg btn-outline-light fw-bold">Login</a>
-    </p>
+    <div class="container-fluid w-75 rounded shadow">
+      <h1 class="mt-3">Login to MetaWarrior Army</h1>
+      <p class="lead">Use your web3 wallet to login and sign up for MetaWarrior Army</p>
+      <p class="lead">
+        <a href="<?php echo $oauth_url; ?>" class="btn btn-lg btn-outline-light fw-bold mb-3">Login</a>
+      </p>
+    </div>
   </main>
 
   <footer class="mt-auto text-white-50">
     <!-- footer text example -->
-    <!--
-    <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
-    -->
+    <?php
+      include('php/footer.php');
+    ?>
   </footer>
 </div>
 
