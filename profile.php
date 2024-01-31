@@ -2,8 +2,6 @@
 
 include './php/mwa.php';
 
-error_log("TEST");
-
 // Start server session
 session_start();
 
@@ -143,13 +141,16 @@ if(isset($userinfo)){
     <link rel="canonical" href="https://www.metawarrior.army/profile.php">
 
     <!-- Favicons -->
-
+    <link rel="icon" type="image/x-icon" href="/media/img/logo.ico"></link>
     <meta name="theme-color" content="#712cf9">
 
     
     <!-- Custom styles for this template -->
     <link href="/css/index.css" rel="stylesheet">
     <link href="/css/profile.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/187f3aa9d6.js" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js"
         integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
@@ -159,89 +160,141 @@ if(isset($userinfo)){
   <body class="d-flex h-100 text-center text-bg-dark">
     
     
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  
   <header class="mb-auto">
     <div>
       <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
-		<a class="nav-link fw-bold py-1 px-0 active" href="/profile">Profile</a>
-        <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="<?php echo $oauth_logout_url; ?>">Logout
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Profile
+                </a>
+                <ul class="dropdown-menu text-light bg-dark" aria-labelledby="navbarDropdown">
+
+                  <?php 
+                    //var_dump($_SESSION['userinfo']);
+
+                    if($userObj->nft_0_tx){
+                      include('php/usermenu.php');
+                    }
+                          
+                  ?>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <div class="icon-square d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+                      <span class="p-1"><i class="p-1 fa fa-sign-out" aria-hidden="true"></i></span>
+                      <a class="dropdown-item text-light" href="<?php echo $oauth_logout_url; ?>">Sign out</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!-- Disabled -->
+              <!--
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>
+              -->
+            </ul>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="px-0">
+  <main>
 
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-sm-8 col-lg-6">
-        <!-- Section Heading-->
-        <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-          <h3><u>Welcome</u></h3>
-          <div class="line"></div>
+  <div class="d-flex flex-row flex-shrink-0 p-3 text-light bg-dark">
+    
+    
+    <!-- PAGEBODY -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-lg-6">
+          <!-- Section Heading-->
+          <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+            <div class="line"></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row justify-content-center">
-      <!-- Single Advisor-->
-      <div class="col-12 col-sm-8 col-lg-6 w-100">
-        <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+      <div class="row justify-content-center">
+        <!-- Single Advisor-->
+        <div class="col-12 col-sm-8 col-lg-6 w-100">
+          <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
 
-          <!-- Team Thumb-->
-          <svg width="80" height="80" data-jdenticon-value="<?php echo $userinfo->sub ?>"></svg>  
+            <!-- Team Thumb-->
+            <svg width="80" height="80" data-jdenticon-value="<?php echo $userinfo->sub ?>"></svg>  
 
-          <!-- Choose Username Form -->
+            <!-- Choose Username Form -->
 
-          <?php
+            <?php
 
-              if($userObj->username){
-                if($userObj->nft_0_tx){
-                  echo "<br><a href=\"https://testnet-zkevm.polygonscan.com/tx/".$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-info\">NFT Proof of Membership</a>";
+                if($userObj->username){
+                  if($userObj->nft_0_tx){
+                    echo "<br><a href=\"".$BLOCKEXPLORER.$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-info\">NFT Proof of Membership</a>";
 
+                  }
+                  else{
+                    echo "<br>You still have to <a href=\"https://nft.metawarrior.army/\" class=\"link-light\">Mint</a> your NFT!";
+                  }
                 }
                 else{
-                  echo "<br>You still have to <a href=\"https://nft.metawarrior.army/\" class=\"link-light\">Mint</a> your NFT!";
+                  echo "<br>Welcome to MetaWarrior Army. <br>To become a Member you must choose a username and <b><a href=\"https://nft.metawarrior.army\" class=\"link-info\">Mint your NFT</a></b>.";
                 }
-              }
-              else{
-                echo "<br>Welcome to MetaWarrior Army. <br>To become a Member you must choose a username and <b><a href=\"https://nft.metawarrior.army\" class=\"link-info\">Mint your NFT</a></b>.";
-              }
 
-          ?>
-                    
-            
-          <!-- User Block -->
-          <div class="single_advisor_details_info">
-            <h2 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>  
-            <h6><?php echo($nick_addr); ?></h6>
-            <p>:::</p>
-            <hr>
-
-            <?php 
-              //var_dump($_SESSION['userinfo']);
-
-              if($userObj->nft_0_tx){
-                include('php/services.php');
-              }
-              
             ?>
+                      
+              
+            <!-- User Block -->
+            <div class="single_advisor_details_info">
+              <h2 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>  
+              <h6><?php echo($nick_addr); ?></h6>
+              <p>:::</p>
+              <hr>
 
-            <p class="lead">
-            </p>
+              <?php 
+                //var_dump($_SESSION['userinfo']);
+
+                if($userObj->nft_0_tx){
+                  include('php/services.php');
+                }
+                
+              ?>
+
+              <p class="lead">
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- /PAGEBODY -->
+
   </div>
 
-    <footer class="mt-5 text-white-50">
+    
+
+  </main>
+
+  <footer class="mt-5 text-white-50">
       <?php
         include('php/footer.php');
       ?>
     </footer>
 
-  </main>
 </div>
 
 <!-- Bootstrap JS -->

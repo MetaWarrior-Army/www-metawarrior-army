@@ -23,7 +23,7 @@ if($_POST['check']){
       'name' => $name,
       'status' => 'enabled',
       'lists' => [$SUB_LIST],
-      'attribs' => ['source' => 'subscribe.php']
+      'attribs' => ['source' => 'www.metawarrior.army/sitrep.php', 'version' => 0.1 ]
     ];
     //var_dump($data);
     
@@ -66,6 +66,9 @@ if($_POST['check']){
     <title>MetaWarrior Army</title>
 
     <link rel="canonical" href="https://www.metawarrior.army/index.php">
+
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="/media/img/logo.ico"></link>
 
     <meta name="theme-color" content="#712cf9">
 
@@ -153,13 +156,33 @@ if($_POST['check']){
 <div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-    <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>      <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Home</a>
-        <a class="nav-link fw-bold py-1 px-0 active" href="/sitrep">SITREP</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/roadmap">Roadmap</a>
-        <!--
-        <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
-        -->
+    <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>      
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/sitrep">SITREP</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/roadmap">Roadmap</a>
+              </li>
+              <!-- Disabled -->
+              <!--
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>
+              -->
+            </ul>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -175,7 +198,7 @@ if($_POST['check']){
           include('php/subscribe_form.php');
         }
         else{
-          echo "<h4 class=\"mb-3\">Thanks for subscribing!</h4>";
+          echo "<h4 class=\"mb-3\">Thanks for subscribing!</h4><h6 class=\"text-info mb-5\">Check your email for a letter to confirm your subscription.</h6>";
         }
       ?>
     </div>

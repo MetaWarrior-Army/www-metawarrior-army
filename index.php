@@ -1,3 +1,34 @@
+<?php
+
+include './php/mwa.php';
+
+// Start server session
+session_start();
+
+// This will validate our session or redirect our user to login
+// This page depends on an active session. We prefer the access_token for getting the /userinfo from the OAuth server
+
+if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error)){
+  // we don't have an access_token
+  // do we have what we need to get an access_token?
+  if(isset($_GET['code']) && isset($_GET['scope']) && isset($_GET['state']) && isset($_SESSION['secret'])){
+    // This user is already logged in. We should redirect them to the profile page.
+    header("Location: ".$PROFILE_URL);    
+  }
+  else{
+    // No authorization_code or access_token
+    // This is okay, we can display the homepage
+  }
+}
+else{
+  // User has an access token, redirect them to their profile page
+  header("Location: ".$PROFILE_URL);    
+}
+
+?>
+
+
+
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="auto">
   <head>
@@ -11,10 +42,15 @@
 
     <link rel="canonical" href="https://www.metawarrior.army/index.php">
 
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="/media/img/logo.ico"></link>
+
     <meta name="theme-color" content="#712cf9">
       
     <!-- Custom styles for this template -->
     <link href="/css/index.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/187f3aa9d6.js" crossorigin="anonymous"></script>
   </head>
   <body class="d-flex h-100 text-center text-bg-dark">
     
@@ -23,13 +59,34 @@
 <div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-    <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>      <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/">Home</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/sitrep">SITREP</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/roadmap">Roadmap</a>
-        <!--
-        <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
-        -->
+    <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>      
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/sitrep">SITREP</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/roadmap">Roadmap</a>
+              </li>
+              <!-- Disabled -->
+              <!--
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>
+              -->
+            </ul>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -38,14 +95,19 @@
   <!--<img src="/media/img/mwa_logo0.png" class="img-fluid  w-50 p-3">-->
 
     <div class="card bg-dark text-light w-75 mx-auto shadow">
-      <p class="lead mt-3">Defending Digital Freedom!</p>
+      <p class="lead text-info mt-3"><i>Defending Digital Freedom!</i></p>
+      <hr>
+      <span class="mb-3">
+        <i class="fas fa-fire text-success fa-2xl fa-fw"></i>
+      </span>
+      <h3>Operation Campfire is Underway!</h3>
+      
+      <p>Read the <a href="https://discourse.metawarrior.army/t/mwaoprd0-operation-campfire/13" class="link-light">MWAOPRD</a>.</p>
       <div class="card-body">
-        <p class="small">In an era of proprietary behemoths, we stand as a fresh breath of autonomy. Our mission? To revolutionize the digital landscape through a range of technology products and services that break free from the constraints of centralization.</p>
-        <p class="small">At MetaWarrior Army, we are building more than just a technology company - we are shaping a community. A community driven by the spirit of self-governance and innovation, unshackled by the chains of traditional models. We unite under a common banner, leveraging the bleeding edge of digital assets, governance, artificial intelligence, and human creativity to transform our collective dreams into reality.</p>
-        <p class="small">As we grow and evolve, our community does too. With every step forward, we diligently seek opportunities to gradually decentralize governance, empowering the people to steer our course.</p>
-        <p class="small">
+        
+        
           <a href="/sitrep" class="btn btn-lg btn-outline-light fw-bold">Get the SITREP</a>
-        </p>
+        
       </div>
     </div>
   </main>
