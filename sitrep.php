@@ -40,12 +40,7 @@ if($_POST['check']){
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     $ret = json_decode(curl_exec($ch));
 
-    if($ret->data->id){
-      $subscribed = true;
-    }
-    else{
-      $subscribed = false;
-    }
+    $subscribed = true;
 
     curl_close($ch);
   }
@@ -188,20 +183,37 @@ if($_POST['check']){
   </header>
 
   <main class="px-3">
+
+
+    <div class="container  my-5">
+      <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
+        <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
+          <h3 class="display-7 fw-bold lh-1">Get the SITREP</h3>
+          <p class="lead">The official MetaWarrior Army Newsletter.</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
+            <?php
+              if(!$subscribed){
+                include('php/subscribe_form.php');
+              }
+              else{
+                echo "<p class=\"small\">Received!</p>"; 
+                echo "<h6 class=\"small text-info\">Check your email for a letter to confirm your subscription.</h6>";
+              }
+            ?>
+
+
+
+            
+          </div>
+        </div>
+        <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden ">
+          <img class="rounded-lg-3" src="/media/img/radio0.png" alt="" width="500">
+        </div>
+      </div>
+    </div>
   
 
-    <div class="container-fluid bg-dark text-light w-75 mx-auto shadow">
-      <h1 class="mt-5">Get the SITREP</h1>
-      <p class="lead">Sign up for updates and news on everything MetaWarrior Army.</p>
-      <?php
-        if(!$subscribed){
-          include('php/subscribe_form.php');
-        }
-        else{
-          echo "<h4 class=\"mb-3\">Thanks for subscribing!</h4><h6 class=\"text-info mb-5\">Check your email for a letter to confirm your subscription.</h6>";
-        }
-      ?>
-    </div>
+
   </main>
 
   <footer class="mt-auto text-white-50">

@@ -61,10 +61,24 @@
   </header>
 
   <main class="px-3">
-    <h1>Roadmap</h1>
-    <p class="small">Current roadmap is subject to updates. Latest updates and news available through the <a href="/sitrep" class="link-light">SITREP</a>.</p>
+
+    <div class="container  my-5">
+      <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
+        <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
+          <h3 class="display-7 fw-bold lh-1">MetaWarrior Army Roadmap</h3>
+          <p class="small">updated: Jan 01, 2024 -</p>
+          <p>Active <b>MWAOPRD</b>:</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
+            <p class="lead"><a href="https://discourse.metawarrior.army/t/mwaoprd0-operation-campfire/13" class="link-light">Operation Campfire</a></p>
+          </div>
+        </div>
+        <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden ">
+          <img class="rounded-lg-3" src="/media/img/map1.png" alt="" width="450">
+        </div>
+      </div>
+    </div>
+
     <div class="container-fluid w-75 bg-dark text-light rounded shadow mb-3">
-      <hr>
       <!-- Section: Timeline -->
       <section class="py-5 mx-3">
         <ul class="timeline-with-icons">

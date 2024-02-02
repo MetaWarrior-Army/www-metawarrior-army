@@ -48,80 +48,80 @@ else{
     <meta name="theme-color" content="#712cf9">
       
     <!-- Custom styles for this template -->
-    <link href="/css/index.css" rel="stylesheet">
+    <!-- <link href="/css/index.css" rel="stylesheet"> -->
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/187f3aa9d6.js" crossorigin="anonymous"></script>
   </head>
+
+
   <body class="d-flex h-100 text-center text-bg-dark">
     
+    <div class=" d-flex w-100 h-100 p-3 mx-auto flex-column">
+    
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>        
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/sitrep">SITREP</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/roadmap">Roadmap</a>
+                  </li>
+                  <!-- Disabled -->
+                  <!--
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                  </li>
+                  -->
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
 
-    
-<div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="mb-auto">
-    <div>
-    <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>      
-    
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/sitrep">SITREP</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/roadmap">Roadmap</a>
-              </li>
-              <!-- Disabled -->
-              <!--
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-              </li>
-              -->
-            </ul>
+      <main class="px-3">
+      
+        <div class="container  my-5">
+          <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
+            <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
+              <h3 class="display-7 fw-bold lh-1">A Community of Warriors Fighting for Individual Autonomy on the Digital Frontier</h3>
+              <p class="lead">We believe freedom online is possible and are fostering a community of individuals dedicated to pursuing this freedom for everyone.</p>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
+                <a href="/sitrep" class="btn btn-lg btn-outline-light fw-bold">Get the SITREP</a>
+                
+              </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden ">
+                <img class="rounded-lg-3" src="/media/img/laptop_boots.png" alt="" width="400">
+            </div>
           </div>
         </div>
-      </nav>
+
+      </main>
+
+      <footer class="mt-auto text-white-50">
+        <!-- footer text example -->
+        <?php
+          include('php/footer.php');
+        ?>
+      </footer>
+    
     </div>
-  </header>
 
-  <main class="px-3">
-  <!--<img src="/media/img/mwa_logo0.png" class="img-fluid  w-50 p-3">-->
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-    <div class="card bg-dark text-light w-75 mx-auto shadow">
-      <p class="lead text-info mt-3"><i>Defending Digital Freedom!</i></p>
-      <hr>
-      <span class="mb-3">
-        <i class="fas fa-fire text-success fa-2xl fa-fw"></i>
-      </span>
-      <h3>Operation Campfire is Underway!</h3>
-      
-      <p>Read the <a href="https://discourse.metawarrior.army/t/mwaoprd0-operation-campfire/13" class="link-light">MWAOPRD</a>.</p>
-      <div class="card-body">
-        
-        
-          <a href="/sitrep" class="btn btn-lg btn-outline-light fw-bold">Get the SITREP</a>
-        
-      </div>
-    </div>
-  </main>
-
-  <footer class="mt-auto text-white-50">
-    <!-- footer text example -->
-    <?php
-      include('php/footer.php');
-    ?>
-  </footer>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
-    </body>
+  </body>
 </html>

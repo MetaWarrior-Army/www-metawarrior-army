@@ -1,15 +1,12 @@
 <?php
-
+// Config and helper functions
 include './php/mwa.php';
 
 // Start server session
 session_start();
 
-error_log("SESSION STARTED");
-
 // This will validate our session or redirect our user to login
 // This page depends on an active session. We prefer the access_token for getting the /userinfo from the OAuth server
-
 if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error)){
   error_log("NO ACCESS TOKEN");
   // we don't have an access_token
@@ -65,26 +62,53 @@ if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error))
   else{
     // No authorization_code or access_token, redirect user
     header("Location: ".$LOGIN_URL);
-
   }
 }
 
+if(!isset($_SESSION['userinfo']->username)){
+  // Userinfo for address and validating token
+  $header = ['Authorization: Bearer '.$_SESSION['access_token']->access_token, 'Content-type: application/json'];
+  $crl = curl_init($OAUTH_USERINFO_ENDPOINT);
+  curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
+  curl_setopt($crl,CURLOPT_RETURNTRANSFER, true);
+  try{
+    $userinfo_resp = curl_exec($crl);
+    $userinfo = json_decode($userinfo_resp);
+    curl_close($crl);
+  }
+  catch(Exception $e){
+    echo "Caught exception: ", $e->getMessage();
+  }
 
-//var_dump($_SESSION['access_token']);
-// Userinfo for address and validating token
-$header = ['Authorization: Bearer '.$_SESSION['access_token']->access_token, 'Content-type: application/json'];
-$crl = curl_init($OAUTH_USERINFO_ENDPOINT);
-curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
-curl_setopt($crl, CURLOPT_POST,true);
-curl_setopt($crl, CURLOPT_POSTFIELDS,json_encode($getUserPost));
-curl_setopt($crl,CURLOPT_RETURNTRANSFER, true);
-try{
-  $userinfo_resp = curl_exec($crl);
-  $userinfo = json_decode($userinfo_resp);
-  curl_close($crl);
+  // Get user's current obj from api
+  if(isset($userinfo)){
+    // Use access_token to get user information
+    $getUserPost = [
+      'address' => $userinfo->sub,
+    ];
+    $header = ['Authorization: Bearer '.$_SESSION['access_token']->access_token, 'Content-type: application/json'];
+    $crl = curl_init($GET_USER_API_URL);
+    //OIDC User Info
+    //$crl = curl_init("https://auth.metawarrior.army/userinfo");
+    curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
+    curl_setopt($crl, CURLOPT_POST,true);
+    curl_setopt($crl, CURLOPT_POSTFIELDS,json_encode($getUserPost));
+    curl_setopt($crl,CURLOPT_RETURNTRANSFER, true);
+    try{
+      $get_usr_resp = curl_exec($crl);
+      curl_close($crl);
+    }
+    catch(Exception $e){
+      echo "Caught exception: ", $e->getMessage();
+    }
+
+    $userObj = json_decode($get_usr_resp);
+
+    $_SESSION['userinfo'] = $userObj;
+  }
 }
-catch(Exception $e){
-  echo "Caught exception: ", $e->getMessage();
+else{
+  $userObj = $_SESSION['userinfo'];
 }
 
 // Setup Logout with hydra oauth2
@@ -93,37 +117,9 @@ $state=urlencode("token=".$hashed_secret);
 $oauth_logout_url = $OAUTH_LOGOUT_ENDPOINT."?client_id=".$OAUTH_CLIENT_ID."&id_token_hint=".$_SESSION['access_token']->id_token."&post_logout_redirect_uri=".urlencode('https://www.metawarrior.army/logout')."&state=".$state;
 
 // Setup shortened address
-$front_addr = substr($userinfo->sub,0,5);
-$end_addr = substr($userinfo->sub,-4);
+$front_addr = substr($userObj->address,0,5);
+$end_addr = substr($userObj->address,-4);
 $nick_addr = $front_addr.'...'.$end_addr;
-
-// Get user's current obj from api
-if(isset($userinfo)){
-  // Use access_token to get user information
-  $getUserPost = [
-    'address' => $userinfo->sub,
-  ];
-  $header = ['Authorization: Bearer '.$_SESSION['access_token']->access_token, 'Content-type: application/json'];
-  $crl = curl_init($GET_USER_API_URL);
-  //OIDC User Info
-  //$crl = curl_init("https://auth.metawarrior.army/userinfo");
-  curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
-  curl_setopt($crl, CURLOPT_POST,true);
-  curl_setopt($crl, CURLOPT_POSTFIELDS,json_encode($getUserPost));
-  curl_setopt($crl,CURLOPT_RETURNTRANSFER, true);
-  try{
-    $get_usr_resp = curl_exec($crl);
-    curl_close($crl);
-  }
-  catch(Exception $e){
-    echo "Caught exception: ", $e->getMessage();
-  }
-
-  $userObj = json_decode($get_usr_resp);
-
-  //var_dump($userObj);
-  $_SESSION['userinfo'] = $userObj;
-}
 
 ?>
 
@@ -145,8 +141,6 @@ if(isset($userinfo)){
     <meta name="theme-color" content="#712cf9">
 
     
-    <!-- Custom styles for this template -->
-    <link href="/css/index.css" rel="stylesheet">
     <link href="/css/profile.css" rel="stylesheet">
 
     <!-- Font Awesome -->
@@ -155,7 +149,11 @@ if(isset($userinfo)){
     <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js"
         integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
         crossorigin="anonymous">
-</script>
+    </script>
+
+    <script src="https://discourse.metawarrior.army/javascripts/embed-topics.js"></script>
+
+
   </head>
   <body class="d-flex h-100 text-center text-bg-dark">
     
@@ -177,13 +175,16 @@ if(isset($userinfo)){
                 <a class="nav-link" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="/sitrep">SITREP</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/roadmap">Roadmap</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Profile
                 </a>
-                <ul class="dropdown-menu text-light bg-dark" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu dropdown-menu-dark text-light bg-dark" aria-labelledby="navbarDropdown">
 
                   <?php 
                     //var_dump($_SESSION['userinfo']);
@@ -217,35 +218,50 @@ if(isset($userinfo)){
 
   <main>
 
-  <div class="d-flex flex-row flex-shrink-0 p-3 text-light bg-dark">
-    
-    
-    <!-- PAGEBODY -->
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-sm-8 col-lg-6">
-          <!-- Section Heading-->
-          <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-            <div class="line"></div>
-          </div>
+    <div class="container-fluid rounded shadow mt-5">
+      <div class="row mb-2">
+        
+        <div class="col">
+          <svg width="80" height="80" data-jdenticon-value="<?php echo $_SESSION['userinfo']->address ?>"></svg>  
+          <?php
+
+            if($userObj->username){
+              if($userObj->nft_0_tx){
+                echo "<br><a href=\"".$BLOCKEXPLORER.$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-info\">NFT Proof of Membership</a>";
+
+              }
+            }
+
+          ?>
+
+          <h2 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>  
+          <h6><?php echo($nick_addr); ?></h6>
+          <p>:::</p>
+          <hr>
         </div>
+     
       </div>
-      <div class="row justify-content-center">
-        <!-- Single Advisor-->
-        <div class="col-12 col-sm-8 col-lg-6 w-100">
-          <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-
-            <!-- Team Thumb-->
-            <svg width="80" height="80" data-jdenticon-value="<?php echo $userinfo->sub ?>"></svg>  
-
-            <!-- Choose Username Form -->
-
-            <?php
-
+      <div class="row mb-3">
+        <div class="col" 
+          <?php
+            if($userObj->username){
+              if($userObj->nft_0_tx){
+                echo "hidden=\"true\"";   
+              }
+              else{
+              }
+            }
+            else{
+            }
+          ?>
+        >
+          <div class="card text-light bg-dark rounded shadow">
+            <h5 class="card-header">Notifications</h5>
+            <div class="card-body">
+              <?php
                 if($userObj->username){
                   if($userObj->nft_0_tx){
-                    echo "<br><a href=\"".$BLOCKEXPLORER.$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-info\">NFT Proof of Membership</a>";
-
+                    
                   }
                   else{
                     echo "<br>You still have to <a href=\"https://nft.metawarrior.army/\" class=\"link-light\">Mint</a> your NFT!";
@@ -254,38 +270,46 @@ if(isset($userinfo)){
                 else{
                   echo "<br>Welcome to MetaWarrior Army. <br>To become a Member you must choose a username and <b><a href=\"https://nft.metawarrior.army\" class=\"link-info\">Mint your NFT</a></b>.";
                 }
-
-            ?>
-                      
-              
-            <!-- User Block -->
-            <div class="single_advisor_details_info">
-              <h2 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>  
-              <h6><?php echo($nick_addr); ?></h6>
-              <p>:::</p>
-              <hr>
-
-              <?php 
-                //var_dump($_SESSION['userinfo']);
-
-                if($userObj->nft_0_tx){
-                  include('php/services.php');
-                }
-                
               ?>
-
-              <p class="lead">
-              </p>
             </div>
           </div>
         </div>
       </div>
+      <div class="row mb-3">
+        <div class="col">
+          <div class="card text-light bg-dark rounded shadow" style="width: 13rem;">
+            <h5 class="card-header">Your Services</h5>
+            <div class="card-body">
+              <?php 
+                include('php/services.php');
+              ?>
+            </div>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="card text-light bg-dark rounded shadow mb-2">
+            <h5 class="card-header">Email Usage</h5>
+            <div class="card-body">
+              <?php
+                include('php/get_mail_quota.php');
+              ?>
+            </div>
+          </div>
+
+
+
+          <div class="card text-light bg-dark rounded shadow">
+            <h5 class="card-header">Latest Discourse Posts</h5>
+            <div class="card-body">
+              <d-topics-list style="width: 50rem;" template="complete" allow-create="true" discourse-url="https://discourse.metawarrior.army/" per-page="5"></d-topics-list>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <!-- /PAGEBODY -->
 
-  </div>
-
-    
+      
 
   </main>
 
@@ -299,6 +323,7 @@ if(isset($userinfo)){
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
 
     </body>
 </html>

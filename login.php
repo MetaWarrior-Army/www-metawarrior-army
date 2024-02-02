@@ -125,8 +125,6 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     </style>
 
     
-    <!-- Custom styles for this template -->
-    <link href="/css/index.css" rel="stylesheet">
   </head>
   <body class="d-flex h-100 text-center text-bg-dark">
     
