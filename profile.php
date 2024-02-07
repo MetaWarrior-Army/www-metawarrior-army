@@ -121,6 +121,14 @@ $front_addr = substr($userObj->address,0,5);
 $end_addr = substr($userObj->address,-4);
 $nick_addr = $front_addr.'...'.$end_addr;
 
+require('php/profile_notifications.php');
+
+// Get NFT information if available
+if($userObj->nft_0_tx){
+  $nftJson = file_get_contents('https://nft.metawarrior.army/NFTs/'.$userObj->address.'.json');
+  $nftObj = json_decode($nftJson);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -171,15 +179,6 @@ $nick_addr = $front_addr.'...'.$end_addr;
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/sitrep">SITREP</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/roadmap">Roadmap</a>
-              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Profile
@@ -203,6 +202,12 @@ $nick_addr = $front_addr.'...'.$end_addr;
                   </li>
                 </ul>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/sitrep">SITREP</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/roadmap">Roadmap</a>
+              </li>
               <!-- Disabled -->
               <!--
               <li class="nav-item">
@@ -218,25 +223,44 @@ $nick_addr = $front_addr.'...'.$end_addr;
 
   <main>
 
-    <div class="container-fluid rounded shadow mt-5">
+    <div class="container-fluid rounded shadow mt-5" >
       <div class="row mb-2">
         
         <div class="col">
-          <svg width="80" height="80" data-jdenticon-value="<?php echo $_SESSION['userinfo']->address ?>"></svg>  
           <?php
-
-            if($userObj->username){
-              if($userObj->nft_0_tx){
-                echo "<br><a href=\"".$BLOCKEXPLORER.$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-info\">NFT Proof of Membership</a>";
-
-              }
+            if($userObj->nft_0_tx){
+              echo "<img width=\"80\" src=\"https://nft.metawarrior.army/avatars/".$userObj->address.".png\">";
             }
-
+            else{
+              echo "<svg width=\"80\" height=\"80\" data-jdenticon-value=\"".$userObj->address."\"></svg>";
+            }
           ?>
+          
 
-          <h2 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>  
-          <h6><?php echo($nick_addr); ?></h6>
-          <p>:::</p>
+          <h2 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>
+          
+          <p class="small"><?php echo($nick_addr); ?></p>
+          <?php
+            if($nftObj){
+              $memberLevel = $nftObj->attributes[3]->value;
+              $operation = $nftObj->attributes[1]->value;
+              echo '<p class="lead">Membership Level: <span class="text-success">'.$memberLevel.'</span></p>';
+              echo '<p class="lead">'.$operation.'</p>';
+            }
+          ?>
+          <small>
+            <?php
+
+              if($userObj->username){
+                if($userObj->nft_0_tx){
+                  echo "<a href=\"".$BLOCKEXPLORER.$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-light\">proof of membership</a>";
+                  echo "<p class=\"small\"><a class=\"link-info\" href=\"https://testnets.opensea.io/assets/sepolia/0x6cabA65E31F45Bc926284De902488E2B26b83A64/".$userObj->nft_0_id."\" target=\"_blank\">view on OpenSea</a></p>";
+
+                }
+              }
+
+            ?>
+          </small>
           <hr>
         </div>
      
@@ -244,14 +268,8 @@ $nick_addr = $front_addr.'...'.$end_addr;
       <div class="row mb-3">
         <div class="col" 
           <?php
-            if($userObj->username){
-              if($userObj->nft_0_tx){
+            if(!$SHOW_NOTIFICATIONS){
                 echo "hidden=\"true\"";   
-              }
-              else{
-              }
-            }
-            else{
             }
           ?>
         >
@@ -259,16 +277,8 @@ $nick_addr = $front_addr.'...'.$end_addr;
             <h5 class="card-header">Notifications</h5>
             <div class="card-body">
               <?php
-                if($userObj->username){
-                  if($userObj->nft_0_tx){
-                    
-                  }
-                  else{
-                    echo "<br>You still have to <a href=\"https://nft.metawarrior.army/\" class=\"link-light\">Mint</a> your NFT!";
-                  }
-                }
-                else{
-                  echo "<br>Welcome to MetaWarrior Army. <br>To become a Member you must choose a username and <b><a href=\"https://nft.metawarrior.army\" class=\"link-info\">Mint your NFT</a></b>.";
+                foreach ($NOTIFICATIONS as $message) {
+                  echo $message;
                 }
               ?>
             </div>
@@ -276,36 +286,52 @@ $nick_addr = $front_addr.'...'.$end_addr;
         </div>
       </div>
       <div class="row mb-3">
+        
         <div class="col">
-          <div class="card text-light bg-dark rounded shadow" style="width: 13rem;">
-            <h5 class="card-header">Your Services</h5>
+          <div class="card text-light bg-dark rounded shadow mb-2">
+            <span class="mt-3"><a href="https://mastodon.metawarrior.army" target="_blank"><img src="/media/img/serviceicons/mastodon_icon1.png" width="30px"></a></span>
+
             <div class="card-body">
-              <?php 
-                include('php/services.php');
+              <?php
+                include('php/mastodon_profile.php');
               ?>
             </div>
           </div>
         </div>
-        <div class="col-9">
+        
+        <div class="col">
           <div class="card text-light bg-dark rounded shadow mb-2">
-            <h5 class="card-header">Email Usage</h5>
+          <span class="mt-3"><a class="link-light" href="https://mail.metawarrior.army" target="_blank"><i class="fa-solid fa-2xl fa-envelope"></i></a></span>
             <div class="card-body">
               <?php
                 include('php/get_mail_quota.php');
               ?>
             </div>
           </div>
+        </div>
 
-
-
+        <div class="col">
           <div class="card text-light bg-dark rounded shadow">
-            <h5 class="card-header">Latest Discourse Posts</h5>
+          <span class="mt-3"><a class="link-light" href="https://listmonk.metawarrior.army/archive" target="_blank"><i class="fa-solid fa-2xl fa-newspaper"></i></a></span>
+            <div class="card-body">
+              <div id="mainContent">
+                <div id="content_1">
+                  <?php getFeed("https://listmonk.metawarrior.army/archive.xml"); ?>
+                </div><!--end content 1-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card text-light bg-dark rounded shadow">
+            <span class="mt-3"><a href="https://discourse.metawarrior.army" target="_blank"><img src="/media/img/serviceicons/discourse_icon1.png" width="30px"></a></span>
             <div class="card-body">
               <d-topics-list style="width: 50rem;" template="complete" allow-create="true" discourse-url="https://discourse.metawarrior.army/" per-page="5"></d-topics-list>
             </div>
           </div>
         </div>
-
+        
       </div>
     </div>
 

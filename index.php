@@ -56,7 +56,7 @@ else{
 
   <body class="d-flex h-100 text-center text-bg-dark">
     
-    <div class=" d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="d-flex w-100 h-100 p-3 mx-auto flex-column">
     
       <header class="mb-auto">
         <div>
@@ -93,7 +93,7 @@ else{
 
       <main class="px-3">
       
-        <div class="container  my-5">
+        <div class="container mt-5">
           <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
             <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
               <h3 class="display-7 fw-bold lh-1">A Community of Warriors Fighting for Individual Autonomy on the Digital Frontier</h3>

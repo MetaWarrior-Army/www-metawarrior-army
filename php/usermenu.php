@@ -5,7 +5,7 @@
   // EMAIL CHECK
   if($_SESSION['userinfo']->email_active){
     echo '<li>                  <div class="icon-square d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
-    <img class="p-1" src="/media/img/serviceicons/email_icon2.png">
+    <i class="p-1 fa-solid fa-xl fa-envelope"></i>
     <a class="dropdown-item text-light" href="https://mail.metawarrior.army">Email</a>                  <div class="icon-square d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
     </li>';
   }
