@@ -40,7 +40,7 @@ else{
     <meta name="author" content="admin">
     <title>MetaWarrior Army</title>
 
-    <link rel="canonical" href="https://www.metawarrior.army/index.php">
+    <link rel="canonical" href="https://www.metawarrior.army/about.php">
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/media/img/logo.ico"></link>
@@ -70,11 +70,11 @@ else{
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
                   </li>
                   <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/about">About</a>
-              </li> 
+                    <a class="nav-link active" aria-current="page" href="/about">About</a>
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/sitrep">SITREP</a>
                   </li>
@@ -99,9 +99,15 @@ else{
         <div class="container mt-5 mb-5">
           <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
             <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
-              <h3 class="display-7 fw-bold lh-1 mb-5">A Community of Warriors Fighting for Individual Autonomy on the Digital Frontier</h3>
-              <p class="lead mt-5 mb-5">We believe freedom online is possible and are fostering a community of individuals dedicated to pursuing this freedom for everyone.</p>
-              <div class="d-grid gap-2 mt-5 d-md-flex justify-content-md-center mb-4 mb-lg-3">
+              <h3 class="display-7 fw-bold lh-1">Who Are We?</h3>
+              <p class="lead mb-5">MetaWarrior Army <i>currently</i> is a group of veterans and technologists who believe freedom online is possible through communities of empowered, resourceful individuals capable of governing themselves.</p>
+              <h3 class="display-7 mt-5 fw-bold lh-1">What Are We Building?</h3>
+              <p class="lead">A Web2 platform, governed by a DAO, accessed by your crypto wallet.</p>
+              <p class="lead">We're preparing for what we believe is an inevitable renaissance. </p>
+              <p class="lead">While we recognize the promise of modern technology, we acknowledge alot remains to be created.</p>
+              <p class="lead mb-5">Today we build, train, and educate for the opportunities ahead.</p>
+              
+              <div class="d-grid mt-5 gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
                 <a href="/sitrep" class="btn btn-lg btn-outline-light fw-bold">Get the SITREP</a>
                 
               </div>

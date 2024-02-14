@@ -147,6 +147,9 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
                 <a class="nav-link" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/about">About</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/signup">Signup</a>
               </li>
               <li class="nav-item">

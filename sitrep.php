@@ -164,6 +164,9 @@ if($_POST['check']){
                 <a class="nav-link" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/about">About</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link active" href="/sitrep">SITREP</a>
               </li>
               <li class="nav-item">
@@ -189,8 +192,8 @@ if($_POST['check']){
       <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
         <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
           <h3 class="display-7 fw-bold lh-1">Get the SITREP</h3>
-          <p class="lead">The official MetaWarrior Army Newsletter.</p>
-          <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
+          <p class="lead mb-5">The official MetaWarrior Army Newsletter.</p>
+          <div class="d-grid mt-5 gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
             <?php
               if(!$subscribed){
                 include('php/subscribe_form.php');

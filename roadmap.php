@@ -42,6 +42,9 @@
                 <a class="nav-link" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/about">About</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="/sitrep">SITREP</a>
               </li>
               <li class="nav-item">
@@ -66,8 +69,8 @@
       <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
         <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
           <h3 class="display-7 fw-bold lh-1">MetaWarrior Army Roadmap</h3>
-          <p class="small">updated: Jan 01, 2024 -</p>
-          <p>Active <b>MWAOPRD</b>:</p>
+          <p class="small mb-5">updated: Jan 01, 2024 -</p>
+          <p class="mt-5">Active <b>MWAOPRD</b>:</p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
             <p class="lead"><a href="https://discourse.metawarrior.army/t/mwaoprd0-operation-campfire/13" class="link-light">Operation Campfire</a></p>
           </div>
@@ -87,7 +90,7 @@
               <i class="fas fa-fire text-success fa-lg fa-fw"></i>
             </span>
 
-            <h5 class="fw-bold">Operation Campfire</h5>
+            <h5 class="fw-bold text-success">Operation Campfire</h5>
             <p class="mb-2 fw-bold">01 January 2024</p>
             <p class="small">
               Platform design and development begins. Target is the DigitalOcean cloud platform and commander's intent is to establish a suitable digital patrol base for follow-on operations. See <a href="https://discourse.metawarrior.army/t/mwaoprd0-operation-campfire/13" class="link-light">MWOPRD0</a>.
@@ -99,7 +102,7 @@
             <span class="timeline-icon">
               <i class="fas fa-envelope-open-text text-success fa-lg fa-fw"></i>
             </span>
-            <h5 class="fw-bold">Launch SITREP</h5>
+            <h5 class="fw-bold text-success">Launch SITREP</h5>
             <p class="mb-2 fw-bold">01 January 2024</p>
             <p class="">
               Send the rally cry. Gather the others. Establish a sensor in the Area of Operations and report back regularly. Get the <a href="/sitrep" class="link-light">SITREP</a>.
