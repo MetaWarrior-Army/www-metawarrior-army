@@ -100,7 +100,7 @@ else{
           <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
             <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
               <h3 class="display-7 fw-bold lh-1">Who Are We?</h3>
-              <p class="lead mb-5">MetaWarrior Army <i>currently</i> is a group of veterans and technologists who believe freedom online is possible through communities of empowered, resourceful individuals capable of governing themselves.</p>
+              <p class="lead mb-5">Currently we are a band of veterans and technologists who believe freedom online is possible through communities of empowered, resourceful individuals capable of governing themselves.</p>
               <h3 class="display-7 mt-5 fw-bold lh-1">What Are We Building?</h3>
               <p class="lead">A Web2 platform, governed by a DAO, accessed by your crypto wallet.</p>
               <p class="lead">We're preparing for what we believe is an inevitable renaissance. </p>

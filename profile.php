@@ -254,7 +254,7 @@ if($userObj->nft_0_tx){
               if($userObj->username){
                 if($userObj->nft_0_tx){
                   echo "<a href=\"".$BLOCKEXPLORER.$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-light\">proof of membership</a>";
-                  echo "<p class=\"small\"><a class=\"link-info\" href=\"https://testnets.opensea.io/assets/sepolia/0x6cabA65E31F45Bc926284De902488E2B26b83A64/".$userObj->nft_0_id."\" target=\"_blank\">view on OpenSea</a></p>";
+                  echo "<p class=\"small\"><a class=\"link-info\" href=\"https://testnets.opensea.io/assets/sepolia/0x41168873aD07fe25Ca3c3EE437689cd0494e48bF/".$userObj->nft_0_id."\" target=\"_blank\">view on OpenSea</a></p>";
 
                 }
               }
