@@ -111,6 +111,10 @@ else{
   $userObj = $_SESSION['userinfo'];
 }
 
+#if(!isset($userObj->username)){
+#  header("Location: https://nft.metawarrior.army/");
+#}
+
 // Setup Logout with hydra oauth2
 $hashed_secret = hash('sha512',$_SESSION['secret']);
 $state=urlencode("token=".$hashed_secret);
@@ -129,6 +133,7 @@ if($userObj->nft_0_tx){
   $nftObj = json_decode($nftJson);
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -140,7 +145,7 @@ if($userObj->nft_0_tx){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="admin">
-    <title>User Profile - MetaWarrior Army</title>
+    <title>MetaWarrior Army</title>
 
     <link rel="canonical" href="https://www.metawarrior.army/profile.php">
 
@@ -203,6 +208,9 @@ if($userObj->nft_0_tx){
                 </ul>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="/mission">Mission</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="/sitrep">SITREP</a>
               </li>
               <li class="nav-item">
@@ -254,7 +262,7 @@ if($userObj->nft_0_tx){
               if($userObj->username){
                 if($userObj->nft_0_tx){
                   echo "<a href=\"".$BLOCKEXPLORER.$userObj->nft_0_tx."\" target=\"_blank\" class=\"link-light\">proof of membership</a>";
-                  echo "<p class=\"small\"><a class=\"link-info\" href=\"https://testnets.opensea.io/assets/sepolia/0x41168873aD07fe25Ca3c3EE437689cd0494e48bF/".$userObj->nft_0_id."\" target=\"_blank\">view on OpenSea</a></p>";
+                  echo "<p class=\"small\"><a class=\"link-info\" href=\"https://testnets.opensea.io/assets/sepolia/".$MEMBER_NFT_CONTRACT."/".$userObj->nft_0_id."\" target=\"_blank\">view on OpenSea</a></p>";
 
                 }
               }
@@ -266,7 +274,7 @@ if($userObj->nft_0_tx){
      
       </div>
       <div class="row mb-3">
-        <div class="col" 
+        <div id="notifications" class="col" 
           <?php
             if(!$SHOW_NOTIFICATIONS){
                 echo "hidden=\"true\"";   
@@ -274,7 +282,12 @@ if($userObj->nft_0_tx){
           ?>
         >
           <div class="card text-light bg-dark rounded shadow">
-            <h5 class="card-header">Notifications</h5>
+            <div class="text-end w-100">
+              <i onclick="closeNotifications()" class="p-2 fa fa-window-close" aria-hidden="true"></i>
+            </div>
+            <div class="text-start w-100">
+              <p class="text-warning card-header small"></p>
+            </div>
             <div class="card-body">
               <?php
                 foreach ($NOTIFICATIONS as $message) {
@@ -349,6 +362,7 @@ if($userObj->nft_0_tx){
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="/js/profile.js"></script>
 
 
     </body>

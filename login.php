@@ -39,7 +39,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="admin">
-    <title>MetaWarrior Army - Login</title>
+    <title>MetaWarrior Army</title>
 
     <link rel="canonical" href="https://www.metawarrior.army/login.php">
 
@@ -144,7 +144,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
                 <a class="nav-link" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/about">About</a>
+                <a class="nav-link" aria-current="page" href="/mission">Mission</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/login">Login</a>

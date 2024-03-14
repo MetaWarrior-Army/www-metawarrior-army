@@ -101,14 +101,21 @@ else{
             <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
               <h3 class="display-7 fw-bold lh-1">Who Are We?</h3>
               <p class="lead mb-5">Currently we are a band of veterans and technologists who believe freedom online is possible through communities of empowered, resourceful individuals capable of governing themselves.</p>
+
               <h3 class="display-7 mt-5 fw-bold lh-1">What Are We Building?</h3>
-              <p class="lead">A Web2 platform, governed by a DAO, accessed by your crypto wallet.</p>
-              <p class="lead">We're preparing for what we believe is an inevitable renaissance. </p>
-              <p class="lead">While we recognize the promise of modern technology, we acknowledge alot remains to be created.</p>
+              <p class="lead">A Web2 social platform, governed by a DAO, accessed by your crypto wallet.</p>
+              <p class="lead">While we recognize the promise of Web3, we acknowledge a lot remains to be created.</p>
               <p class="lead mb-5">Today we build, train, and educate for the opportunities ahead.</p>
+
+              <h3 class="display-7 mt-5 fw-bold lh-1">Why Are We Building?</h3>
+              <p class="lead">Web3's social layer still depends on Web2 platforms that are privately owned and centrally governed.</p>
+              <p class="lead">While most Web3 projects mitigate risk of being de-banked, more can be done to mitigate the risk of being de-platformed.</p>
+              <p class="lead">Average consumers today no longer trust the privately owned Web2 platforms we all depend on to exist in the modern economy.</p>
+              <p class="lead">Wrapping Web2 platforms in Web3 technology unlocks additional value capture and incentive alignment opportunities to turn costly dependencies into value generative activities.</p>
+              <p class="lead">With additional opportunities to align user & platform incentives, major improvements in the Web2 ecosystem can be unlocked for the betterment of all.</p>
               
               <div class="d-grid mt-5 gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
-                <a href="/sitrep" class="btn btn-lg btn-outline-light fw-bold">Get the SITREP</a>
+                <a href="/sitrep" class="btn btn-lg btn-outline-warning fw-bold">Get the SITREP</a>
                 
               </div>
             </div>

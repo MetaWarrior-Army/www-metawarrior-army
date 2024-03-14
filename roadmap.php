@@ -42,7 +42,7 @@
                 <a class="nav-link" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/about">About</a>
+                <a class="nav-link" aria-current="page" href="/mission">Mission</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/sitrep">SITREP</a>
@@ -68,11 +68,12 @@
     <div class="container  my-5">
       <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
         <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
-          <h3 class="display-7 fw-bold lh-1">MetaWarrior Army Roadmap</h3>
-          <p class="small mb-5">updated: Jan 01, 2024 -</p>
-          <p class="mt-5">Active <b>MWAOPRD</b>:</p>
+          <h1 class="mb-3 display-1">🧭</h1>
+          <h3 class="display-4 fw-bold lh-1">MetaWarrior Army Roadmap</h3>
+          <p class="small mb-5 text-info">updated: Jan 01, 2024</p>
+          <h3 class="mt-5 display 5">Active <b>MWAOPRD</b>:</h3>
           <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
-            <p class="lead"><a href="https://discourse.metawarrior.army/t/mwaoprd0-operation-campfire/13" class="link-light">Operation Campfire</a></p>
+            <h3 class="display-6"><a href="https://discourse.metawarrior.army/t/mwaoprd0-operation-campfire/13" class="link-warning">Operation Campfire</a></h3>
           </div>
         </div>
         <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden ">
@@ -87,12 +88,12 @@
         <ul class="timeline-with-icons">
           <li class="timeline-item mb-5">
             <span class="timeline-icon">
-              <i class="fas fa-fire text-success fa-lg fa-fw"></i>
+              <h1 class="display-5">🔥</h1>
             </span>
 
-            <h5 class="fw-bold text-success">Operation Campfire</h5>
+            <h5 class="fw-bold display-5 text-success">Operation Campfire</h5>
             <p class="mb-2 fw-bold">01 January 2024</p>
-            <p class="small">
+            <p class="lead">
               Platform design and development begins. Target is the DigitalOcean cloud platform and commander's intent is to establish a suitable digital patrol base for follow-on operations. See <a href="https://discourse.metawarrior.army/t/mwaoprd0-operation-campfire/13" class="link-light">MWOPRD0</a>.
             </p>
           </li>
@@ -100,11 +101,11 @@
           <li class="timeline-item mb-5">
 
             <span class="timeline-icon">
-              <i class="fas fa-envelope-open-text text-success fa-lg fa-fw"></i>
+              <h1 class="display-5">✉️</h1>
             </span>
-            <h5 class="fw-bold text-success">Launch SITREP</h5>
+            <h5 class="fw-bold display-5 text-success">Launch SITREP</h5>
             <p class="mb-2 fw-bold">01 January 2024</p>
-            <p class="">
+            <p class="lead">
               Send the rally cry. Gather the others. Establish a sensor in the Area of Operations and report back regularly. Get the <a href="/sitrep" class="link-light">SITREP</a>.
             </p>
           </li>
@@ -112,11 +113,11 @@
           <li class="timeline-item mb-5">
 
             <span class="timeline-icon">
-              <i class="fas fa-users text-secondary fa-lg fa-fw"></i>
+              <h1 class="display-5">🪖</h1>
             </span>
-            <h5 class="fw-bold">Basic Training</h5>
+            <h5 class="fw-bold display-5">Basic Training</h5>
             <p class="mb-2 fw-bold">TBD</p>
-            <p class="">
+            <p class="lead">
               Conduct basic training of initial members providing a foundational level of knowledge, experience, and additional resources for success on target and during follow-on operations.
             </p>
           </li>
@@ -124,11 +125,11 @@
           <li class="timeline-item mb-5">
 
             <span class="timeline-icon">
-              <i class="fas fa-toolbox text-secondary fa-lg fa-fw"></i>
+              <h1 class="display-5">🧰</h1>
             </span>
-            <h5 class="fw-bold">Issue Equipment</h5>
+            <h5 class="fw-bold display-5">Issue Equipment</h5>
             <p class="mb-2 fw-bold">TBD</p>
-            <p class="">
+            <p class="lead">
               Outfit the Army with key tools and resources necessary for operating autonomously in a hostile digital ecosystem with an upper hand.
             </p>
           </li>
@@ -136,11 +137,11 @@
           <li class="timeline-item mb-5">
 
             <span class="timeline-icon">
-              <i class="fas fa-money-bill-wave text-secondary fa-lg fa-fw"></i>
+              <h1 class="display-5">🧾</h1>
             </span>
-            <h5 class="fw-bold">Mint Digital Assets</h5>
+            <h5 class="fw-bold display-5">Mint Digital Assets</h5>
             <p class="mb-2 fw-bold">TBD</p>
-            <p class="">
+            <p class="lead">
               Develop unique digital assets to maximize the utility of the platform for members, incentivizing on-platform activity and community engagement.
             </p>
           </li>
@@ -148,11 +149,11 @@
           <li class="timeline-item mb-5">
 
             <span class="timeline-icon">
-              <i class="fas fa-gavel text-secondary fa-lg fa-fw"></i>
+              <h1 class="display-5">⚖️</h1>
             </span>
-            <h5 class="fw-bold">Launch DAO</h5>
+            <h5 class="fw-bold display-5">Launch DAO</h5>
             <p class="mb-2 fw-bold">TBD</p>
-            <p class="">
+            <p class="lead">
               Deploy official Decentralized Autonomous Organization (DAO) for additional community organizational capacity.
             </p>
           </li>
@@ -160,11 +161,11 @@
           <li class="timeline-item mb-5">
 
             <span class="timeline-icon">
-              <i class="fas fa-tree text-secondary fa-lg fa-fw"></i>
+              <h1 class="display-5">📡</h1>
             </span>
-            <h5 class="fw-bold">Season 0</h5>
+            <h5 class="fw-bold display-5">Season 0</h5>
             <p class="mb-2 fw-bold">TBD</p>
-            <p class="">
+            <p class="lead">
               Identify targeted operations for Season 0, plan and execute according to MWAOPRD standards.
             </p>
           </li>

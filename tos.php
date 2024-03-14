@@ -47,6 +47,9 @@ session_start();
                       <a class="nav-link" aria-current="page" href="/">Home</a>
                       </li>
                       <li class="nav-item">
+                      <a class="nav-link" href="/mission">Mission</a>
+                      </li>
+                      <li class="nav-item">
                       <a class="nav-link" href="/sitrep">SITREP</a>
                       </li>
                       <li class="nav-item">

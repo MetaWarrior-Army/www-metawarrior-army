@@ -39,7 +39,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="admin">
-    <title>MetaWarrior Army - SignUp</title>
+    <title>MetaWarrior Army</title>
 
     <link rel="canonical" href="https://www.metawarrior.army/signup.php">
 
@@ -147,16 +147,16 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
                 <a class="nav-link" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/about">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/signup">Signup</a>
+                <a class="nav-link" aria-current="page" href="/mission">Mission</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/sitrep">SITREP</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="/roadmap">Roadmap</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/signup">Join</a>
               </li>
               <!-- Disabled -->
               <!--
@@ -172,57 +172,68 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
   </header>
 
   <main class="px-0 mt-5 mb-5">
-    <div class="container-fluid w-50 rounded shadow">
-              <h1 class="mt-3">Become a Member</h1>
-              <!-- <p class="lead">Use your crypto wallet to login and sign up for MetaWarrior Army (MWA).</p> -->
+    <div class="container-fluid w-75 rounded shadow">
 
-              <div class="text-center">
-              <!-- <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-              <h1 class="display-5 fw-bold text-body-emphasis">Centered hero</h1> -->
-              <div class="col-lg-6 mx-auto">
-                <p class="lead">Control your digital destiny in the MetaWarrior Army.</p>
+      <div class="text-center">
+        <h1 class="mb-5 display-1">🎖️</h1>
+        <h1 class="display-5 fw-bold">Join The Army</h1>
+        
+        <div class="col-lg-6 mx-auto">
+          <p class="lead fw-bold text-warning mb-5">Now Accepting Founding Members</p>
+          <hr>
+          <h2 class="display-6 mb-3 fw-bold">Mint Your NFT</h2>
+          <h3 class="mb-5">You Bring: <span class="text-info">0.02 ETH</span></h3>
+          <h3 class="mb-5">You Get: <span class="text-info"></span></h3>
 
-                <button type="button" class="btn btn-outline-light btn-lg px-4 mb-3" onclick="location.href='<?php echo $oauth_url; ?>'">Signup</button>
-                
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                  <p class="small">Use your Web3 wallet to sign up and become a member at MetaWarrior Army.</p>
-                </div>
+          <div class="mb-5">
+            <h3 class="mb-5 text-info"><i>Lifetime Access</i></h3>
+
+
+            <div class="border-bottom mb-3" aria-current="true">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Email</h5>
+                <h1>✉️</h1>
               </div>
-            </div>
-            <hr>
-
-          <div class="container mt-5">
-              <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-                <div class="col-10 col-sm-8 col-lg-6">
-                  <p class="lead">Gear up!</p>
-                  <p class="small">If you're familiar with crypto and blockchain technology but need a wallet, MWA recommends <b>MetaMask</b>.</p>
-                </div>
-                <div class="col-lg-6">
-                  <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://metamask.io');">Get MetaMask</button>
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                    <!-- <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button> -->
-                  </div>
-                </div>
-              </div>
+              <p class="text-warning mb-1">Secure Webmail & 1GB of Storage.</p>
+              <!-- <small>And some small print.</small> -->
             </div>
 
-            <div class="container px-0 py-0">
-              <div class="row flex-lg-row-reverse align-items-center g-5 py-0">
-                <div class="col-10 col-sm-8 col-lg-6">
-                  <p class="lead">Discover a New World.</p>
-                  <p class="small">If you're unfamiliar with Web3, what it is or how you use it, don't worry!</p>
-                </div>
-                <div class="col-lg-6">
-                  <button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="window.open('https://learn.metamask.io/');">Learn More</button>
-                
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                    
-                  </div>
-                </div>
+            <div class="border-bottom mb-3">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Social Media</h5>
+                <h1>📢</h1>
               </div>
+              <p class="text-warning mb-1">Unlimited access to Mastodon Federated Social Media.</p>
+              <!-- <small class="text-body-secondary">And some muted small print.</small> -->
             </div>
 
-  
+            <div class="border-bottom mb-3">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Chat, Voice & Video Calling</h5>
+                <h1>💬</h1>
+              </div>
+              <p class="text-warning mb-1">Secure chat and calling with groups, rooms, and spaces.</p>
+              <!-- <small class="text-body-secondary">And some muted small print.</small> -->
+            </div>
+
+          </div>
+
+          <h3 class="mb-5 text-info"><i>Plus</i></h3>
+
+          <p class="lead"><b><i>Guaranteed Membership to the DAO</i></b></p>
+
+          <p class="lead"><b><i>Priveleged Access to Future Relases</i></b></p>
+          
+          <p class="lead mb-5"><b><i>Digital Assets and More!</i></b></p>
+
+          <button type="button" class="btn btn-outline-warning btn-lg px-4 mb-3" onclick="location.href='<?php echo $oauth_url; ?>'">Join The Army</button>
+          
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <p class="small">Use your web3 wallet to choose your username and mint your membership in MetaWarrior Army.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
 
