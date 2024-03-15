@@ -2,28 +2,7 @@
 
 include './php/mwa.php';
 
-// Start server session
-session_start();
 
-// This will validate our session or redirect our user to login
-// This page depends on an active session. We prefer the access_token for getting the /userinfo from the OAuth server
-
-if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error)){
-  // we don't have an access_token
-  // do we have what we need to get an access_token?
-  if(isset($_GET['code']) && isset($_GET['scope']) && isset($_GET['state']) && isset($_SESSION['secret'])){
-    // This user is already logged in. We should redirect them to the profile page.
-    header("Location: ".$PROFILE_URL);    
-  }
-  else{
-    // No authorization_code or access_token
-    // This is okay, we can display the homepage
-  }
-}
-else{
-  // User has an access token, redirect them to their profile page
-  header("Location: ".$PROFILE_URL);    
-}
 
 ?>
 

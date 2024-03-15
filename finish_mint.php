@@ -5,28 +5,16 @@ session_start();
 include './php/mwa.php';
 
 
-# Generate secret for individual session (Server Side Security)
-$secret = generateNonce(64);
-$hashed_secret = hash('sha512',$secret);
-# Store secret in session
-$_SESSION['secret']=$secret;
+if(isset($_SESSION['secret']) && isset($_SESSION['access_token']->id_token)){
+  // Setup Logout with hydra oauth2
+  $hashed_secret = hash('sha512',$_SESSION['secret']);
+  $state=urlencode("token=".$hashed_secret);
+  $oauth_logout_url = $OAUTH_LOGOUT_ENDPOINT."?client_id=".$OAUTH_CLIENT_ID."&id_token_hint=".$_SESSION['access_token']->id_token."&post_logout_redirect_uri=".urlencode('https://www.metawarrior.army/logout')."&state=".$state;
+}
+else{
+  header("Location: /login");
+}
 
-# Generate nonce for OAuth call (Provider Side Security)
-$nonce = generateNonce(64);
-
-// SETUP LOGIN TO Ory Hydra
-
-# Set OAuth Parameters
-$response_type="code";
-$client_id=$OAUTH_CLIENT_ID;
-$scope = "openid profile";
-
-$redirect_url=$OAUTH_REDIRECT_URL; // Redirect URI is preconfigured with the provider. In this example we use login.php
-$state=urlencode("token=".$hashed_secret);
-
-// Complete Google OAuth URL
-# This is the URL we send the user to for signing-in/signing-up
-$oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$response_type."&redirect_uri=".$redirect_url."&scope=".$scope."&state=".$state;
 
 // Below is the HTML the user will interact with.
 ?>
@@ -170,11 +158,17 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
 
   <main class="px-3">
     <div class="container-fluid w-75 rounded shadow">
-      <h1 class="display-1">🔐</h1>
-      <h1 class="mt-3 display-4 fw-bold">Login to MetaWarrior Army</h1>
-      <p class="lead">Use your web3 wallet to login and sign up for MetaWarrior Army</p>
-      <p class="lead">
-        <a href="<?php echo $oauth_url; ?>" class="btn btn-lg btn-outline-warning fw-bold mb-3">Login</a>
+      <h1 class="display-1">🧾</h1>
+      <h1 class="mt-3 display-4 fw-bold mb-5">Join MetaWarrior Army</h1>
+      <p class="lead">To complete your membership, you'll need to mint an NFT. If you've already minted your NFT, try logging out and logging back in.</p>
+      <?php
+        if(isset($_GET['username'])){
+          echo "<p class=\"lead\">Your username <span class=\"fw-bold text-info\">".$_GET['username']."</span> has been secured for now.";
+        }
+      ?>
+      <p>
+        <a href="https://nft.metawarrior.army" class="btn btn-lg btn-outline-info fw-bold mb-3 m-3">Mint NFT</a>
+        <a href="<?php echo $oauth_logout_url; ?>" class="btn btn-lg btn-outline-warning fw-bold mb-3 m-3">Logout</a>
       </p>
     </div>
   </main>

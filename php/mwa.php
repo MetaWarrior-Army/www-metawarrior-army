@@ -17,6 +17,7 @@ function getFeed($feed_url) {
 	$content = file_get_contents($feed_url);
 	$x = new SimpleXmlElement($content);
 	echo "<div class=\"list-group list-group-dark\">";
+    $i = 0;
 	foreach($x->channel->item as $entry) {
         // format pubDate
         $time = strtotime($entry->pubDate);
@@ -26,6 +27,10 @@ function getFeed($feed_url) {
         echo "<div class=\"d-flex w-100 justify-content-right\">";
         echo "<small class=\"text-secondary\">".$newformat."</small>";
         echo "</div>";
+        $i++;
+        if($i > 4){
+            break;
+        }
 	}
 	echo "</div>";
 }

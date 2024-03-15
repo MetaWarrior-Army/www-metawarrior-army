@@ -8,11 +8,11 @@ session_start();
 // This will validate our session or redirect our user to login
 // This page depends on an active session. We prefer the access_token for getting the /userinfo from the OAuth server
 if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error)){
-  error_log("NO ACCESS TOKEN");
+  // error_log("NO ACCESS TOKEN");
   // we don't have an access_token
   // do we have what we need to get an access_token?
   if(isset($_GET['code']) && isset($_GET['scope']) && isset($_GET['state']) && isset($_SESSION['secret'])){
-    error_log("WE HAVE OUR QUERY VARIABLES");
+    // error_log("WE HAVE OUR QUERY VARIABLES");
     $hashed_secret = hash('sha512',$_SESSION['secret']);
     $code = $_GET['code'];
     // This is a string ex: "scope1 scope2 scope3" etc. 
@@ -25,9 +25,10 @@ if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error))
       // State mismatch
       echo "<p>Session doesn't match</p>";
       header("Location: ".$LOGIN_URL);
+      return;
     }
     else{
-      error_log("SESSION MATCH");
+      // error_log("SESSION MATCH");
     }
 
     // Okay, let's get the access_token
@@ -62,6 +63,7 @@ if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error))
   else{
     // No authorization_code or access_token, redirect user
     header("Location: ".$LOGIN_URL);
+    return;
   }
 }
 
@@ -111,9 +113,14 @@ else{
   $userObj = $_SESSION['userinfo'];
 }
 
-#if(!isset($userObj->username)){
-#  header("Location: https://nft.metawarrior.army/");
-#}
+if(!isset($userObj->username)){
+  header("Location: /finish_mint");
+  return;
+}
+elseif(!isset($userObj->nft_0_tx)) {
+  header('Location: /finish_mint?username='.$userObj->username);
+  return;
+}
 
 // Setup Logout with hydra oauth2
 $hashed_secret = hash('sha512',$_SESSION['secret']);
@@ -152,17 +159,8 @@ if($userObj->nft_0_tx){
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/media/img/logo.ico"></link>
     <meta name="theme-color" content="#712cf9">
-
     
     <link href="/css/profile.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/187f3aa9d6.js" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js"
-        integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
-        crossorigin="anonymous">
-    </script>
 
     <script src="https://discourse.metawarrior.army/javascripts/embed-topics.js"></script>
 
@@ -202,19 +200,10 @@ if($userObj->nft_0_tx){
                   <li>
                     <div class="icon-square d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
                       <span class="p-1"><i class="p-1 fa fa-sign-out" aria-hidden="true"></i></span>
-                      <a class="dropdown-item text-light" href="<?php echo $oauth_logout_url; ?>">Sign out</a>
+                      <a class="dropdown-item text-light" href="<?php echo $oauth_logout_url; ?>">Log out</a>
                     </div>
                   </li>
                 </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/mission">Mission</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/sitrep">SITREP</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/roadmap">Roadmap</a>
               </li>
               <!-- Disabled -->
               <!--
@@ -237,22 +226,19 @@ if($userObj->nft_0_tx){
         <div class="col">
           <?php
             if($userObj->nft_0_tx){
-              echo "<img width=\"80\" src=\"https://nft.metawarrior.army/avatars/".$userObj->address.".png\">";
-            }
-            else{
-              echo "<svg width=\"80\" height=\"80\" data-jdenticon-value=\"".$userObj->address."\"></svg>";
+              echo "<img width=\"80\" class=\"img-fluid rounded shadow\" src=\"https://nft.metawarrior.army/avatars/".$userObj->address.".png\">";
             }
           ?>
           
 
-          <h2 class="designation" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>
+          <h2 class="designation fw-bold display-4" id="username"><?php if($userObj->username){echo $userObj->username;}else{echo "";}?></h2>
           
-          <p class="small"><?php echo($nick_addr); ?></p>
+          <p class="small text-warning"><?php echo($nick_addr); ?></p>
           <?php
             if($nftObj){
               $memberLevel = $nftObj->attributes[3]->value;
               $operation = $nftObj->attributes[1]->value;
-              echo '<p class="lead">Membership Level: <span class="text-success">'.$memberLevel.'</span></p>';
+              echo '<p class="lead">Membership Level: <span class="text-info fw-bold">'.$memberLevel.'</span></p>';
               echo '<p class="lead">'.$operation.'</p>';
             }
           ?>
@@ -283,7 +269,7 @@ if($userObj->nft_0_tx){
         >
           <div class="card text-light bg-dark rounded shadow">
             <div class="text-end w-100">
-              <i onclick="closeNotifications()" class="p-2 fa fa-window-close" aria-hidden="true"></i>
+              <span onclick="closeNotifications()" class="text-light p-2 fa fa-window-close"> ❎</span>
             </div>
             <div class="text-start w-100">
               <p class="text-warning card-header small"></p>
@@ -302,7 +288,7 @@ if($userObj->nft_0_tx){
         
         <div class="col">
           <div class="card text-light bg-dark rounded shadow mb-2">
-            <span class="mt-3"><a href="https://mastodon.metawarrior.army" target="_blank"><img src="/media/img/serviceicons/mastodon_icon1.png" width="30px"></a></span>
+            <span class="mt-3"><a class="link-underline-opacity-0 link-light" href="https://mastodon.metawarrior.army" target="_blank"><h1 class="display-7">📢</h1></a></span>
 
             <div class="card-body">
               <?php
@@ -314,7 +300,7 @@ if($userObj->nft_0_tx){
         
         <div class="col">
           <div class="card text-light bg-dark rounded shadow mb-2">
-          <span class="mt-3"><a class="link-light" href="https://mail.metawarrior.army" target="_blank"><i class="fa-solid fa-2xl fa-envelope"></i></a></span>
+          <span class="mt-3"><a class="link-underline-opacity-0 link-light" href="https://mail.metawarrior.army" target="_blank"><h1 class="display-7">✉️</h1></a></span>
             <div class="card-body">
               <?php
                 include('php/get_mail_quota.php');
@@ -325,7 +311,7 @@ if($userObj->nft_0_tx){
 
         <div class="col">
           <div class="card text-light bg-dark rounded shadow">
-          <span class="mt-3"><a class="link-light" href="https://listmonk.metawarrior.army/archive" target="_blank"><i class="fa-solid fa-2xl fa-newspaper"></i></a></span>
+          <span class="mt-3"><a class="link-light link-underline-opacity-0" href="https://listmonk.metawarrior.army/archive" target="_blank"><h1 class="display-7">🗞️</h1></a></span>
             <div class="card-body">
               <div id="mainContent">
                 <div id="content_1">
@@ -338,7 +324,7 @@ if($userObj->nft_0_tx){
 
         <div class="col">
           <div class="card text-light bg-dark rounded shadow">
-            <span class="mt-3"><a href="https://discourse.metawarrior.army" target="_blank"><img src="/media/img/serviceicons/discourse_icon1.png" width="30px"></a></span>
+            <span class="mt-3"><a class="link-light link-underline-opacity-0" href="https://discourse.metawarrior.army" target="_blank"><h1 class="display-7">📝</a></span>
             <div class="card-body">
               <d-topics-list style="width: 50rem;" template="complete" allow-create="true" discourse-url="https://discourse.metawarrior.army/" per-page="5"></d-topics-list>
             </div>

@@ -21,7 +21,7 @@ if($_SESSION['userinfo']->email_active){
         echo "Caught exception: ", $e->getMessage();
     }
 
-    echo "<p class=\"small text-info\">mailbox usage</p>
+    echo "<p class=\"small text-info\">mailbox usage: ".round($quota_obj->percent,0)."%</p>
             <div class=\"progress\" role=\"progressbar\" aria-label=\"Basic example\" aria-valuenow=\"".round($quota_obj->percent,0)."\" aria-valuemin=\"0\" aria-valuemax=\"100\">
             <div class=\"progress-bar\" style=\"width: ".round($quota_obj->percent,0)."%\">".round($quota_obj->percent,0)."%</div>
             </div>";

@@ -13,20 +13,24 @@ try{
     $get_usr_resp = curl_exec($crl);
     curl_close($crl);
     //var_dump($get_usr_resp);
+    $user_obj = json_decode($get_usr_resp);
+
 }
 catch(Exception $e){
     echo "Caught exception: ", $e->getMessage();
 }
 
-$user_obj = json_decode($get_usr_resp);
 
-//var_dump($user_obj);
-
-echo "<img class=\"rounded\" width=\"50px\" src=\"".$user_obj->avatar_static."\">";
-echo "<a href=\"".$user_obj->url."\" target=\"_blank\" class=\"link-light\"><h5>".$user_obj->username."@metawarrior.army</h5></a>";
-echo "<p class=\"small\">Followers: <b>".$user_obj->followers_count."</b></p>";
-echo "<p class=\"small\">Following: <b>".$user_obj->following_count."</b></p>";
-echo "<p class=\"small\">Toots: <b>".$user_obj->statuses_count."</b></p>";
+if(!isset($user_obj->error)){
+    echo "<img class=\"rounded\" width=\"50px\" src=\"".$user_obj->avatar_static."\">";
+    echo "<a href=\"".$user_obj->url."\" target=\"_blank\" class=\"link-light\"><h5>".$user_obj->username."@metawarrior.army</h5></a>";
+    echo "<p class=\"small\">Followers: <b>".$user_obj->followers_count."</b></p>";
+    echo "<p class=\"small\">Following: <b>".$user_obj->following_count."</b></p>";
+    echo "<p class=\"small\">Toots: <b>".$user_obj->statuses_count."</b></p>";
+}
+else{
+    echo "<a class=\"btn btn-outline-info\" href=\"https://mastodon.metawarrior.army\">Login to Mastodon</a>";
+}
 
 
 
