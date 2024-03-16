@@ -73,8 +73,11 @@ else{
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                   </li>
                   <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/mission">Mission</a>
-              </li> 
+                    <a class="nav-link" aria-current="page" href="/mission">Mission</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">About Us</a>
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/sitrep">SITREP</a>
                   </li>
@@ -122,8 +125,8 @@ else{
           <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">A social platform by the people, for the people; providing an alternative to privately owned, centrally governed solutions where users have no rights. .</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+              <a href="/about" type="button" class="btn btn-outline-warning btn-lg px-4 me-sm-3 fw-bold">About Us</a>
               <!--
-              <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Primary button</button>
               <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
               -->
             </div>

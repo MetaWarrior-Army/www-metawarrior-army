@@ -150,6 +150,9 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
                 <a class="nav-link" aria-current="page" href="/mission">Mission</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/about">About Us</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="/sitrep">SITREP</a>
               </li>
               <li class="nav-item">
@@ -175,7 +178,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
     <div class="container-fluid w-75 rounded shadow">
 
       <div class="text-center">
-        <h1 class="mb-5 display-1">🎖️</h1>
+        <h1 class="mb-5 display-1">🎖️🛠️🔭</h1>
         <h1 class="display-5 fw-bold">Join The Army</h1>
         
         <div class="col-lg-6 mx-auto">

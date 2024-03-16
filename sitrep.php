@@ -167,6 +167,9 @@ if($_POST['check']){
                 <a class="nav-link" aria-current="page" href="/mission">Mission</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/about">About Us</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link active" href="/sitrep">SITREP</a>
               </li>
               <li class="nav-item">

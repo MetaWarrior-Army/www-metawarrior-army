@@ -2,28 +2,7 @@
 
 include './php/mwa.php';
 
-// Start server session
-session_start();
 
-// This will validate our session or redirect our user to login
-// This page depends on an active session. We prefer the access_token for getting the /userinfo from the OAuth server
-
-if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error)){
-  // we don't have an access_token
-  // do we have what we need to get an access_token?
-  if(isset($_GET['code']) && isset($_GET['scope']) && isset($_GET['state']) && isset($_SESSION['secret'])){
-    // This user is already logged in. We should redirect them to the profile page.
-    header("Location: ".$PROFILE_URL);    
-  }
-  else{
-    // No authorization_code or access_token
-    // This is okay, we can display the homepage
-  }
-}
-else{
-  // User has an access token, redirect them to their profile page
-  header("Location: ".$PROFILE_URL);    
-}
 
 ?>
 
@@ -73,7 +52,10 @@ else{
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/about">About</a>
+                    <a class="nav-link" aria-current="page" href="/mission">Mission</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/about">About Us</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/sitrep">SITREP</a>
@@ -95,36 +77,88 @@ else{
       </header>
 
       <main class="px-3">
-      
-        <div class="container mt-5 mb-5">
-          <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
-            <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
-              <h3 class="display-7 fw-bold lh-1">Who Are We?</h3>
-              <p class="lead mb-5">Currently we are a band of veterans and technologists who believe freedom online is possible through communities of empowered, resourceful individuals capable of governing themselves.</p>
 
-              <h3 class="display-7 mt-5 fw-bold lh-1">What Are We Building?</h3>
-              <p class="lead">A Web2 social platform, governed by a DAO, accessed by your crypto wallet.</p>
-              <p class="lead">While we recognize the promise of Web3, we acknowledge a lot remains to be created.</p>
-              <p class="lead mb-5">Today we build, train, and educate for the opportunities ahead.</p>
+        <div class="b-example-divider"></div>
 
-              <h3 class="display-7 mt-5 fw-bold lh-1">Why Are We Building?</h3>
-              <p class="lead">Web3's social layer still depends on Web2 platforms that are privately owned and centrally governed.</p>
-              <p class="lead">While most Web3 projects mitigate risk of being de-banked, more can be done to mitigate the risk of being de-platformed.</p>
-              <p class="lead">Average consumers today no longer trust the privately owned Web2 platforms we all depend on to exist in the modern economy.</p>
-              <p class="lead">Wrapping Web2 platforms in Web3 technology unlocks additional value capture and incentive alignment opportunities to turn costly dependencies into value generative activities.</p>
-              <p class="lead">With additional opportunities to align user & platform incentives, major improvements in the Web2 ecosystem can be unlocked for the betterment of all.</p>
-              
-              <div class="d-grid mt-5 gap-2 d-md-flex justify-content-md-center mb-4 mb-lg-3">
-                <a href="/sitrep" class="btn btn-lg btn-outline-warning fw-bold">Get the SITREP</a>
-                
-              </div>
-            </div>
-            <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden ">
-                <img class="rounded-lg-3" src="/media/img/laptop_boots.png" alt="" width="400">
+        <div class="px-4 py-5 my-5 text-center">
+          <h1 class="mb-5 display-1">🎖️🛠️🔭</h1>
+          <h1 class="display-5 fw-bold">Who Are We?</h1>
+          <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">We are warriors defending a space for soveriegnty and autonomy.</p>
+            <p class="lead mb-4">We are builders, putting ingenuity to work for the betterment of all.</p>
+            <p class="lead mb-4">We are innovators seeking understanding and a better way.</p>
+            <p class="lead mb-4">We are business owners, contributing sustaining value for our communities.</p>
+            <p class="lead mb-4">We are family members; stewards of our way of life and it's future.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <a href="/mission" type="button" class="btn btn-outline-info btn-lg px-4 gap-3 fw-bold">Our Mission</a>
+              <a href="/sitrep" type="button" class="btn btn-outline-warning btn-lg px-4 fw-bold">Get the SITREP</a>
             </div>
           </div>
         </div>
 
+        <div class="b-example-divider"></div>
+
+        <div class="container px-4 py-5 rounded-3 shadow-lg" id="featured-3">
+          <div class="overflow-hidden mb-5" style="max-height: 30vh;">
+            <!-- <img class="img-fluid rounded-3 border shadow-lg mb-4" src="/media/img/mission_banner.png" width="1080"> -->
+            <h1 class="mb-5 display-1">📜</h1>
+          </div>
+          <h1 class="display-5 fw-bold">Our Values</h1>
+          <p class="lead border-bottom p-3">Our values lead us through good times and bad, setting the standard when all else fails.</p>
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+            
+            <div class="feature col">
+              <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <h1 class="display-4">🏛️</h1>
+              </div>
+              <h3 class="fs-2">Soveriegnty</h3>
+              <p>Soveriegnty for the community above all else. Without the community the individual does not exist and growth becomes nearly impossible.</p>
+            </div>
+
+            <div class="feature col">
+              <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <h1 class="display-4">🗽</h1>
+              </div>
+              <h3 class="fs-2">Autonomy</h3>
+              <p>Individual Autononomy is crucial to lead a life of freedom, individual responsibility, and own one's destiny.</p>
+            </div>
+
+            <div class="feature col">
+              <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <h1 class="display-4">🎖️</h1>
+              </div>
+              <h3 class="fs-2">Integrity</h3>
+              <p>Integrity is the bone of trust, without it individuals become liabilities and collaboration requires immense overhead.</p>
+            </div>
+
+            <div class="feature col">
+              <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <h1 class="display-4">⚔️</h1>
+              </div>
+              <h3 class="fs-2">Selfless Sacrifice</h3>
+              <p>Selfless Sacrifice for the greater good allows individuals to depend on each other in the toughest times and provides agility when needed most.</p>
+            </div>
+
+            <div class="feature col">
+              <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <h1 class="display-4">🛠️</h1>
+              </div>
+              <h3 class="fs-2">Duty</h3>
+              <p>A sense of Duty ensures what must be done, get's done. Commitments made can be depended on.</p>
+            </div>
+
+            <div class="feature col">
+              <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <h1 class="display-4">🔭</h1>
+              </div>
+              <h3 class="fs-2">Innovation</h3>
+              <p>Thinking outside the box and going where no one has gone before to bring in the future.</p>
+            </div>
+
+          </div>
+        </div>
+        
+        
       </main>
 
       <footer class="mt-auto text-white-50">

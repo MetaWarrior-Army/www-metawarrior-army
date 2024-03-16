@@ -55,6 +55,9 @@ include './php/mwa.php';
                     <a class="nav-link active" aria-current="page" href="/mission">Mission</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">About Us</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="/sitrep">SITREP</a>
                   </li>
                   <li class="nav-item">
@@ -164,7 +167,7 @@ include './php/mwa.php';
             <p class="lead mb-4">MetaWarrior Army is leverages membership proposals on-chain for planning and goal-setting where every user has a voice in a battle-tested Decentralized Autonomous Organization (DAO).</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
               
-              <a type="button" href="/sitrep" class="btn btn-outline-warning btn-lg px-4 gap-3">Get the SITREP</a>
+              <a type="button" href="/sitrep" class="btn btn-outline-warning btn-lg px-4 gap-3 fw-bold">Get the SITREP</a>
               <!--
               <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
               -->

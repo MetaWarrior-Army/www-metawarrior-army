@@ -8,5 +8,5 @@
     <input type="checkbox" class="form-check-input" id="check1" name="check" onChange="checkForm();">
     <label class="form-check-label small" for="exampleCheck1">I am the owner of this email address.</label>
   </div>
-  <button type="submit" id="submit" class="btn btn-outline-info mb-3" disabled>Submit</button>
+  <button type="submit" id="submit" class="btn btn-outline-info mb-3 fw-bold" disabled>Sign Up</button>
 </form>
