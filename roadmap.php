@@ -29,7 +29,7 @@
 <div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-    <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
+    <h3 class="float-md-start"><a href="/"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></a></h3>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
         <div class="container-fluid">
           <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
@@ -68,7 +68,7 @@
 
   <main class="px-3">
 
-    <div class="container  my-5">
+    <div class="container  mb-5">
       <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
         <div class=" col-lg-7 p-3 p-lg-5 pt-lg-3">
           <h1 class="mb-3 display-1">🧭</h1>
@@ -85,7 +85,7 @@
       </div>
     </div>
 
-    <div class="container-fluid w-75 bg-dark text-light rounded shadow mb-3">
+    <div class="container-fluid w-75 bg-dark mb-5 text-light rounded shadow">
       <!-- Section: Timeline -->
       <section class="py-5 mx-3">
         <ul class="timeline-with-icons">

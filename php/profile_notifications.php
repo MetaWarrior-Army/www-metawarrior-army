@@ -18,7 +18,7 @@
     // Get invite code and referral count
     if($userObj->invite_code){
         $user_invite_code = $userObj->invite_code;
-        array_push($NOTIFICATIONS,"<br><p class=\"lead\">Here's your personal invite code to share with friends: <span class=\"text-info\"><b><a id=\"invite_code\" class=\"link-info\" href=\"https://nft.metawarrior.army/?invite=".$user_invite_code."\">".$user_invite_code."</a></b></span> <span class=\"p-5\" onclick=\"copyInvite()\"><i class=\"fa fa-clone\"></i></span></p>");
+        array_push($NOTIFICATIONS,"<br><p class=\"lead\">Here's your personal invite code to share with friends: <span class=\"text-info\"><b><a id=\"invite_code\" class=\"link-info\" href=\"https://nft.metawarrior.army/?invite=".$user_invite_code."\">".$user_invite_code."</a></b></span> <span class=\"p-5 text-warning\" onclick=\"copyInvite()\"><i class=\"fa fa-clone\"></i></span></p>");
         $SHOW_NOTIFICATIONS = true;
     }
     if($userObj->num_referrals){

@@ -60,7 +60,7 @@ else{
     
       <header class="mb-auto">
         <div>
-          <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>        
+          <h3 class="float-md-start"><a href="/"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></a></h3>        
           <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
             <div class="container-fluid">
               <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
@@ -97,7 +97,7 @@ else{
         </div>
       </header>
 
-      <main class="px-3">
+      <main class="px-3 mb-5">
       
         <div class="container mt-5 mb-5">
           <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-lg">
@@ -120,7 +120,7 @@ else{
 
         <div class="b-example-divider"></div>
 
-        <div class="px-4 pt-5 my-5 text-center">
+        <div class="px-4 pt-5 mb-5 text-center">
           <h1 class="display-4 fw-bold">A User Owned and Governed Social Platform</h1>
           <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">A social platform by the people, for the people; providing an alternative to privately owned, centrally governed solutions where users have no rights. .</p>

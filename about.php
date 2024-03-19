@@ -39,7 +39,7 @@ include './php/mwa.php';
     
       <header class="mb-auto">
         <div>
-          <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>        
+          <h3 class="float-md-start"><a href="/"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></a></h3>        
           <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
             <div class="container-fluid">
               <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
@@ -98,7 +98,7 @@ include './php/mwa.php';
 
         <div class="b-example-divider"></div>
 
-        <div class="container px-4 py-5 rounded-3 shadow-lg" id="featured-3">
+        <div class="container px-4 py-5 mb-5 rounded-3 shadow-lg" id="featured-3">
           <div class="overflow-hidden mb-5" style="max-height: 30vh;">
             <!-- <img class="img-fluid rounded-3 border shadow-lg mb-4" src="/media/img/mission_banner.png" width="1080"> -->
             <h1 class="mb-5 display-1">📜</h1>

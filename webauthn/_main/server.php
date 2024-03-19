@@ -1,5 +1,11 @@
 <?php
 
+// MetaWarrior Army WebAuthn Server
+// Modified w/ attribution below
+// Author: admin@metawarrior.army
+// Basic FIDO/U2F WebAuthn implementation in PHP
+// Storage to pgsql database
+
 /*
  * Copyright (C) 2022 Lukas Buchs
  * license https://github.com/lbuchs/WebAuthn/blob/master/LICENSE MIT
@@ -34,7 +40,11 @@
  * ------------------------------------------------------------
  */
 
+// Additional dependencies for MWA
+require 'php/mwa.php';
+
 require_once '../src/WebAuthn.php';
+
 try {
     session_start();
 
@@ -42,22 +52,21 @@ try {
     $fn = filter_input(INPUT_GET, 'fn');
     $requireResidentKey = !!filter_input(INPUT_GET, 'requireResidentKey');
     $userVerification = filter_input(INPUT_GET, 'userVerification', FILTER_SANITIZE_SPECIAL_CHARS);
-
     $userId = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_SPECIAL_CHARS);
     $userName = filter_input(INPUT_GET, 'userName', FILTER_SANITIZE_SPECIAL_CHARS);
     $userDisplayName = filter_input(INPUT_GET, 'userDisplayName', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    $userId = preg_replace('/[^0-9a-f]/i', '', $userId);
-    $userName = preg_replace('/[^0-9a-z]/i', '', $userName);
-    $userDisplayName = preg_replace('/[^0-9a-z öüäéèàÖÜÄÉÈÀÂÊÎÔÛâêîôû]/i', '', $userDisplayName);
+    //$userId = preg_replace('/[^0-9a-f]/i', '', $userId);
+    //$userName = preg_replace('/[^0-9a-z]/i', '', $userName);
+    //$userDisplayName = preg_replace('/[^0-9a-z öüäéèàÖÜÄÉÈÀÂÊÎÔÛâêîôû]/i', '', $userDisplayName);
 
     $post = trim(file_get_contents('php://input'));
     if ($post) {
         $post = json_decode($post, null, 512, JSON_THROW_ON_ERROR);
     }
 
+    // Get all the inputs
     if ($fn !== 'getStoredDataHtml') {
-
         // Formats
         $formats = [];
         if (filter_input(INPUT_GET, 'fmt_android-key')) {
@@ -108,7 +117,6 @@ try {
             $crossPlatformAttachment = false;
         }
 
-
         // new Instance of the server library.
         // make sure that $rpId is the domain name.
         $WebAuthn = new lbuchs\WebAuthn\WebAuthn('WebAuthn Library', $rpId, $formats);
@@ -136,15 +144,14 @@ try {
         if (filter_input(INPUT_GET, 'mds')) {
             $WebAuthn->addRootCertificates('rootCertificates/mds');
         }
-
     }
+
 
     // ------------------------------------
     // request for create arguments
     // ------------------------------------
-
     if ($fn === 'getCreateArgs') {
-        $createArgs = $WebAuthn->getCreateArgs(\hex2bin($userId), $userName, $userDisplayName, 60*4, $requireResidentKey, $userVerification, $crossPlatformAttachment);
+        $createArgs = $WebAuthn->getCreateArgs(\hex2bin(bin2hex($userId)), $userName, $userDisplayName, 60*4, $requireResidentKey, $userVerification, $crossPlatformAttachment);
 
         header('Content-Type: application/json');
         print(json_encode($createArgs));
@@ -153,11 +160,9 @@ try {
         $_SESSION['challenge'] = $WebAuthn->getChallenge();
 
 
-
     // ------------------------------------
     // request for get arguments
     // ------------------------------------
-
     } else if ($fn === 'getGetArgs') {
         $ids = [];
 
@@ -192,11 +197,9 @@ try {
         $_SESSION['challenge'] = $WebAuthn->getChallenge();
 
 
-
     // ------------------------------------
     // process create
     // ------------------------------------
-
     } else if ($fn === 'processCreate') {
         $clientDataJSON = base64_decode($post->clientDataJSON);
         $attestationObject = base64_decode($post->attestationObject);
@@ -217,7 +220,15 @@ try {
             $_SESSION['registrations'] = [];
         }
         $_SESSION['registrations'][] = $data;
+        
+        // Store registration in the database
+        // Connecting, selecting database
+        $dbconn = pg_connect("host=localhost dbname=".$PG_DB_NAME." user=".$PG_DB_USER." password=".$PG_DB_PASS)
+        or die('Could not connect: ' . pg_last_error());
 
+        $insert_query = "INSERT INTO mfa_creds ( rpid, credentialid, credentialpublickey, userid) VALUES ('www.metawarrior.army','".base64_encode($data->credentialId)."','".base64_encode($data->credentialPublicKey)."', '".$data->userId."');";
+        $q_result = pg_query($insert_query);
+        
         $msg = 'registration success.';
         if ($data->rootValid === false) {
             $msg = 'registration ok, but certificate does not match any of the selected root ca.';
@@ -227,15 +238,15 @@ try {
         $return->success = true;
         $return->msg = $msg;
 
+        pg_close($dbconn);
+
         header('Content-Type: application/json');
         print(json_encode($return));
-
 
 
     // ------------------------------------
     // proccess get
     // ------------------------------------
-
     } else if ($fn === 'processGet') {
         $clientDataJSON = base64_decode($post->clientDataJSON);
         $authenticatorData = base64_decode($post->authenticatorData);
@@ -245,9 +256,24 @@ try {
         $challenge = $_SESSION['challenge'] ?? '';
         $credentialPublicKey = null;
 
+        // Lookup registrations in the database
+        // Store registration in the database
+        // Connecting, selecting database
+        $dbconn = pg_connect("host=localhost dbname=".$PG_DB_NAME." user=".$PG_DB_USER." password=".$PG_DB_PASS)
+        or die('Could not connect: ' . pg_last_error());
+
+        $search_query = "SELECT * FROM mfa_creds WHERE credentialid = '".base64_encode($id)."'";
+        $search_result = pg_query($dbconn, $search_query);
+        if(pg_num_rows($search_result) > 0){
+            $row = pg_fetch_array($search_result);
+            $credentialPublicKey = base64_decode($row['credentialpublickey']);
+        }
+        pg_close($dbconn);
+        
         // looking up correspondending public key of the credential id
         // you should also validate that only ids of the given user name
         // are taken for the login.
+        /*
         if (isset($_SESSION['registrations']) && is_array($_SESSION['registrations'])) {
             foreach ($_SESSION['registrations'] as $reg) {
                 if ($reg->credentialId === $id) {
@@ -256,6 +282,7 @@ try {
                 }
             }
         }
+        */
 
         if ($credentialPublicKey === null) {
             throw new Exception('Public Key for credential ID not found!');
@@ -275,11 +302,22 @@ try {
         header('Content-Type: application/json');
         print(json_encode($return));
 
+
     // ------------------------------------
     // proccess clear registrations
     // ------------------------------------
-
     } else if ($fn === 'clearRegistrations') {
+        // Delete all user keys from database
+        // Connecting, selecting database
+        $dbconn = pg_connect("host=localhost dbname=".$PG_DB_NAME." user=".$PG_DB_USER." password=".$PG_DB_PASS)
+        or die('Could not connect: ' . pg_last_error());
+
+        // Delete all registrations for userId in database
+        $delete_query = "DELETE FROM mfa_creds WHERE userid='".$userId."'";
+        $delete_result = pg_query($dbconn,$delete_query);
+
+        pg_close($dbconn);
+
         $_SESSION['registrations'] = null;
         $_SESSION['challenge'] = null;
 
@@ -290,17 +328,40 @@ try {
         header('Content-Type: application/json');
         print(json_encode($return));
 
+
     // ------------------------------------
     // display stored data as HTML
     // ------------------------------------
-
     } else if ($fn === 'getStoredDataHtml') {
+        // Query database for registered keys
+        // Connecting, selecting database
+        $dbconn = pg_connect("host=localhost dbname=".$PG_DB_NAME." user=".$PG_DB_USER." password=".$PG_DB_PASS)
+        or die('Could not connect: ' . pg_last_error());
+
+        // Delete all registrations for userId in database
+        $select_query = "SELECT * FROM mfa_creds WHERE userid='".$userId."'";
+        $select_result = pg_query($dbconn,$select_query);
+        $registrations = [];
+        // Build array for UI
+        while($data = pg_fetch_object($select_result)){
+            $new_arr = [];
+            $new_arr['userId'] = $data->userid;
+            $new_arr['credentialId'] = $data->credentialid;
+            $new_arr['credentialPublicKey'] = base64_decode($data->credentialpublickey);
+            array_push($registrations,$new_arr);
+        }
+
+        pg_close($dbconn);
+
         $html = '<!DOCTYPE html>' . "\n";
         $html .= '<html><head><style>tr:nth-child(even){background-color: #f2f2f2;}</style></head>';
         $html .= '<body style="font-family:sans-serif">';
-        if (isset($_SESSION['registrations']) && is_array($_SESSION['registrations'])) {
-            $html .= '<p>There are ' . count($_SESSION['registrations']) . ' registrations in this session:</p>';
-            foreach ($_SESSION['registrations'] as $reg) {
+        if (isset($registrations) && is_array($registrations)) {
+        //if (isset($_SESSION['registrations']) && is_array($_SESSION['registrations'])) {
+            $html .= '<p>There are ' . count($registrations) . ' registrations in this session:</p>';
+            //$html .= '<p>There are ' . count($_SESSION['registrations']) . ' registrations in this session:</p>';
+            foreach ($registrations as $reg) {
+            //foreach ($_SESSION['registrations'] as $reg) {
                 $html .= '<table style="border:1px solid black;margin:10px 0;">';
                 foreach ($reg as $key => $value) {
 
@@ -328,12 +389,11 @@ try {
         header('Content-Type: text/html');
         print $html;
 
+
     // ------------------------------------
     // get root certs from FIDO Alliance Metadata Service
     // ------------------------------------
-
     } else if ($fn === 'queryFidoMetaDataService') {
-
         $mdsFolder = 'rootCertificates/mds';
         $success = false;
         $msg = null;

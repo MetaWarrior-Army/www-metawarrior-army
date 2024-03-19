@@ -162,6 +162,10 @@ if($userObj->nft_0_tx){
     
     <link href="/css/profile.css" rel="stylesheet">
 
+    <!-- Font Awseome -->
+    <script src="https://kit.fontawesome.com/041b1cce3a.js" crossorigin="anonymous"></script>
+
+    <!-- Discourse feed for embedding topics -->
     <script src="https://discourse.metawarrior.army/javascripts/embed-topics.js"></script>
 
 
@@ -173,7 +177,7 @@ if($userObj->nft_0_tx){
   
   <header class="mb-auto">
     <div>
-      <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
+      <h3 class="float-md-start"><a href="/"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></a></h3>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
         <div class="container-fluid">
           <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
@@ -198,7 +202,7 @@ if($userObj->nft_0_tx){
                   ?>
                   <li><hr class="dropdown-divider"></li>
                   <li>
-                    <div class="icon-square d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+                    <div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
                       <span class="p-1"><i class="p-1 fa fa-sign-out" aria-hidden="true"></i></span>
                       <a class="dropdown-item text-light" href="<?php echo $oauth_logout_url; ?>">Log out</a>
                     </div>
@@ -226,7 +230,7 @@ if($userObj->nft_0_tx){
         <div class="col">
           <?php
             if($userObj->nft_0_tx){
-              echo "<img width=\"80\" class=\"img-fluid rounded shadow\" src=\"https://nft.metawarrior.army/avatars/".$userObj->address.".png\">";
+              echo "<img width=\"80\" class=\"img-fluid mt-3 rounded shadow\" src=\"https://nft.metawarrior.army/avatars/".$userObj->address.".png\">";
             }
           ?>
           
@@ -269,7 +273,7 @@ if($userObj->nft_0_tx){
         >
           <div class="card text-light bg-dark rounded shadow">
             <div class="text-end w-100">
-              <span onclick="closeNotifications()" class="text-light p-2 fa fa-window-close"> ❎</span>
+              <span onclick="closeNotifications()" class="text-warning p-2 fa fa-window-close"></span>
             </div>
             <div class="text-start w-100">
               <p class="text-warning card-header small"></p>

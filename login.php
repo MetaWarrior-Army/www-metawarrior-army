@@ -131,7 +131,7 @@ $oauth_url = $OAUTH_AUTH_ENDPOINT."?client_id=".$client_id."&response_type=".$re
 <div class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-      <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>
+      <h3 class="float-md-start"><a href="/"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></a></h3>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
         <div class="container-fluid">
           <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>

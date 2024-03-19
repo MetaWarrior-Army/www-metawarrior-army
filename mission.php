@@ -39,7 +39,7 @@ include './php/mwa.php';
     
       <header class="mb-auto">
         <div>
-          <h3 class="float-md-start"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></h3>        
+          <h3 class="float-md-start"><a href="/"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></a></h3>        
           <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
             <div class="container-fluid">
               <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
@@ -76,7 +76,7 @@ include './php/mwa.php';
         </div>
       </header>
 
-      <main class="px-3">
+      <main class="px-3 mb-5">
 
         <div class="container px-4 py-5 rounded-3 shadow-lg" id="featured-3">
           <div class="overflow-hidden mb-5" style="max-height: 30vh;">

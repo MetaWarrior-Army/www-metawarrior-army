@@ -4,7 +4,7 @@
 <?php
   // EMAIL CHECK
   if($_SESSION['userinfo']->email_active){
-    echo '<li>                  <div class="icon-square d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+    echo '<li><div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
     ✉️
     <a class="dropdown-item text-light" href="https://mail.metawarrior.army">Email</a><div class="icon-square d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
     </li>';
@@ -17,7 +17,7 @@
 <?php
   // Social Check
   if($_SESSION['userinfo']->email_active){
-    echo '<li><div class="icon-square d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+    echo '<li><div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
     📢
   <a class="dropdown-item text-light" href="https://mastodon.metawarrior.army">Social</a></div></li>';
   }
@@ -29,7 +29,7 @@
 <?php
   // Chat check
   if($_SESSION['userinfo']->email_active){
-    echo '<li><div class="icon-square d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+    echo '<li><div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
     💬
     <a class="dropdown-item text-light" href="https://matrix.metawarrior.army">Chat</a></div></li>';
   }
@@ -41,7 +41,7 @@
 <?php
   // Discourse Check
   if($_SESSION['userinfo']->email_active){
-    echo '<li><div class="icon-square d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+    echo '<li><div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
     📝
     <a class="dropdown-item text-light" href="https://discourse.metawarrior.army">Discourse</a></div></li>';
   }

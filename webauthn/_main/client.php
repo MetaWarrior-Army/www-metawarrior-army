@@ -1,3 +1,16 @@
+<?php
+
+require 'php/mwa.php';
+
+$address = '0x7B93AED8239f85949FDCec66f1f9ED13a5026adD';
+
+// tiger192,4 is 32 rounds, we base64encode it as a string for the server API
+$hashedAddress = base64_encode(hash('tiger192,4', $address, true));
+
+
+?>
+
+
 <!DOCTYPE html>
 <!-- 
 MetaWarrior Army WebAuthn Client
@@ -10,13 +23,7 @@ Author: admin@metawarrior.army
         <meta charset="UTF-8">
         <script>
 
-        function hashCode(str) {
-        return str.split('').reduce((prevHash, currVal) =>
-            (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
-        }
-
-        console.log("address hashed: "+hashCode('0x7B93AED8239f85949FDCec66f1f9ED13a5026adD'))
-        const address_hashed = hashCode('0x7B93AED8239f85949FDCec66f1f9ED13a5026adD');
+        const address_hashed = '<?php echo $hashedAddress; ?>';
 
         /**
          * creates a new FIDO2 registration
@@ -357,7 +364,7 @@ Author: admin@metawarrior.army
             </div>
             <div class="serverPreview">
                 <p style="margin-left:10px;font-weight: bold;">Here you can see what's saved on the server:</p>
-                <iframe src="server.php?fn=getStoredDataHtml" id="serverPreview"></iframe>
+                <iframe src="server.php?fn=getStoredDataHtml&userId=<?php echo $hashedAddress; ?>" id="serverPreview"></iframe>
             </div>
         <div>
     </body>
