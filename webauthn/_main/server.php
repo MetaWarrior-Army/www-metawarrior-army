@@ -166,15 +166,32 @@ try {
     } else if ($fn === 'getGetArgs') {
         $ids = [];
 
+        /*
         if ($requireResidentKey) {
             if (!isset($_SESSION['registrations']) || !is_array($_SESSION['registrations']) || count($_SESSION['registrations']) === 0) {
                 throw new Exception('we do not have any registrations in session to check the registration');
             }
 
         } else {
+        */
+            // Search Database for userid's registrations
+            // Use PGSQL for registration management
+            // Connecting, selecting database
+            $dbconn = pg_connect("host=localhost dbname=".$PG_DB_NAME." user=".$PG_DB_USER." password=".$PG_DB_PASS)
+            or die('Could not connect: ' . pg_last_error());
+
+            // First check if the user already has 3 keys created
+            $check_query = "SELECT * FROM mfa_creds WHERE userid='".$userId."'";
+            $check_result = pg_query($dbconn,$check_query);
+            while($check_obj = pg_fetch_object($check_result)){
+                error_log($check_obj->credentialid);
+                $ids[] = base64_decode($check_obj->credentialid);
+            };
+
             // load registrations from session stored there by processCreate.
             // normaly you have to load the credential Id's for a username
             // from the database.
+            /*
             if (isset($_SESSION['registrations']) && is_array($_SESSION['registrations'])) {
                 foreach ($_SESSION['registrations'] as $reg) {
                     if ($reg->userId === $userId) {
@@ -182,18 +199,21 @@ try {
                     }
                 }
             }
+            */
 
             if (count($ids) === 0) {
-                throw new Exception('no registrations in session for userId ' . $userId);
+                throw new Exception('No keys registered.');
             }
+        /*
         }
+        */
 
         $getArgs = $WebAuthn->getGetArgs($ids, 60*4, $typeUsb, $typeNfc, $typeBle, $typeHyb, $typeInt, $userVerification);
 
         header('Content-Type: application/json');
         print(json_encode($getArgs));
 
-        // save challange to session. you have to deliver it to processGet later.
+        // save challange to server session. you have to deliver it to processGet later.
         $_SESSION['challenge'] = $WebAuthn->getChallenge();
 
 
@@ -206,7 +226,6 @@ try {
         $challenge = $_SESSION['challenge'];
 
         // processCreate returns data to be stored for future logins.
-        // in this example we store it in the php session.
         // Normaly you have to store the data in a database connected
         // with the user name.
         $data = $WebAuthn->processCreate($clientDataJSON, $attestationObject, $challenge, $userVerification === 'required', true, false);
@@ -216,20 +235,36 @@ try {
         $data->userName = $userName;
         $data->userDisplayName = $userDisplayName;
 
+        /* We don't use php sessions anymore, we use the database
         if (!isset($_SESSION['registrations']) || !array_key_exists('registrations', $_SESSION) || !is_array($_SESSION['registrations'])) {
             $_SESSION['registrations'] = [];
         }
         $_SESSION['registrations'][] = $data;
-        
-        // Store registration in the database
+        */
+
+        // Use PGSQL for registration management
         // Connecting, selecting database
         $dbconn = pg_connect("host=localhost dbname=".$PG_DB_NAME." user=".$PG_DB_USER." password=".$PG_DB_PASS)
         or die('Could not connect: ' . pg_last_error());
 
-        $insert_query = "INSERT INTO mfa_creds ( rpid, credentialid, credentialpublickey, userid) VALUES ('www.metawarrior.army','".base64_encode($data->credentialId)."','".base64_encode($data->credentialPublicKey)."', '".$data->userId."');";
-        $q_result = pg_query($insert_query);
+        // First check if the user already has 3 keys created
+        $check_query = "SELECT count(id) FROM mfa_creds WHERE userid='".$data->userId."'";
+        $check_result = pg_query($dbconn,$check_query);
+        $check_row = pg_fetch_row($check_result);
+        if($check_row[0] >= 3){
+            // Too many keys registered for this user
+            error_log("3 keys registered. Clear keys to add new keys.");
+            throw new Exception('3 keys registered. Clear keys to add new keys.');
+        }
+        else{
+            // New entry
+            // do some more error checking here
+            $insert_query = "INSERT INTO mfa_creds ( rpid, credentialid, credentialpublickey, userid) VALUES ('www.metawarrior.army','".base64_encode($data->credentialId)."','".base64_encode($data->credentialPublicKey)."', '".$data->userId."');";
+            $q_result = pg_query($dbconn,$insert_query);
+        }
+        pg_close($dbconn);
         
-        $msg = 'registration success.';
+        $msg = 'Key registered!';
         if ($data->rootValid === false) {
             $msg = 'registration ok, but certificate does not match any of the selected root ca.';
         }
@@ -237,8 +272,6 @@ try {
         $return = new stdClass();
         $return->success = true;
         $return->msg = $msg;
-
-        pg_close($dbconn);
 
         header('Content-Type: application/json');
         print(json_encode($return));
@@ -265,6 +298,7 @@ try {
         $search_query = "SELECT * FROM mfa_creds WHERE credentialid = '".base64_encode($id)."'";
         $search_result = pg_query($dbconn, $search_query);
         if(pg_num_rows($search_result) > 0){
+            error_log("processGet: Found Credentials");
             $row = pg_fetch_array($search_result);
             $credentialPublicKey = base64_decode($row['credentialpublickey']);
         }
@@ -285,13 +319,15 @@ try {
         */
 
         if ($credentialPublicKey === null) {
-            throw new Exception('Public Key for credential ID not found!');
+            throw new Exception('Could not find registered key.');
         }
 
+        /* Don't need this check anymore because we're querying the database
         // if we have resident key, we have to verify that the userHandle is the provided userId at registration
         if ($requireResidentKey && $userHandle !== hex2bin($reg->userId)) {
             throw new \Exception('userId doesnt match (is ' . bin2hex($userHandle) . ' but expect ' . $reg->userId . ')');
         }
+        */
 
         // process the get request. throws WebAuthnException if it fails
         $WebAuthn->processGet($clientDataJSON, $authenticatorData, $signature, $credentialPublicKey, $challenge, null, $userVerification === 'required');
@@ -318,12 +354,13 @@ try {
 
         pg_close($dbconn);
 
-        $_SESSION['registrations'] = null;
+        // This shouldn't be needed anymore
+        //$_SESSION['registrations'] = null; 
         $_SESSION['challenge'] = null;
 
         $return = new stdClass();
         $return->success = true;
-        $return->msg = 'all registrations deleted';
+        $return->msg = 'No keys registered.';
 
         header('Content-Type: application/json');
         print(json_encode($return));
@@ -333,6 +370,7 @@ try {
     // display stored data as HTML
     // ------------------------------------
     } else if ($fn === 'getStoredDataHtml') {
+        // This prints an html page with Bootstrap CSS and some styling for dark pages
         // Query database for registered keys
         // Connecting, selecting database
         $dbconn = pg_connect("host=localhost dbname=".$PG_DB_NAME." user=".$PG_DB_USER." password=".$PG_DB_PASS)
@@ -354,17 +392,23 @@ try {
         pg_close($dbconn);
 
         $html = '<!DOCTYPE html>' . "\n";
-        $html .= '<html><head><style>tr:nth-child(even){background-color: #f2f2f2;}</style></head>';
-        $html .= '<body style="font-family:sans-serif">';
+        $html .= '<html><head>';
+        $html .= '<meta charset="UTF-8"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">';
+        $html .= '</head>';
+        $html .= '<body class="d-flex text-center text-bg-dark">';
+        $html .= '<div class="d-flex w-100 p-2 mx-auto flex-column">';
+        $html .= '<div class="container mx-auto mt-5 mb-5 rounded-3 shadow-lg">';
         if (isset($registrations) && is_array($registrations)) {
         //if (isset($_SESSION['registrations']) && is_array($_SESSION['registrations'])) {
-            $html .= '<p>There are ' . count($registrations) . ' registrations in this session:</p>';
+            $html .= '<p class="lead mt-2 mb-5">You have <span class="text-warning">' . count($registrations) . '</span> keys registered.</p>';
             //$html .= '<p>There are ' . count($_SESSION['registrations']) . ' registrations in this session:</p>';
+            $keyCount = 0;
             foreach ($registrations as $reg) {
             //foreach ($_SESSION['registrations'] as $reg) {
-                $html .= '<table style="border:1px solid black;margin:10px 0;">';
+                $keyCount += 1;
+                $html .= '<div class="mx-auto row mb-5 justify-content-center">';
                 foreach ($reg as $key => $value) {
-
+                    /* We don't need these checks anymore as we just print the public key
                     if (is_bool($value)) {
                         $value = $value ? 'yes' : 'no';
 
@@ -376,15 +420,20 @@ try {
 
                     } else if (is_string($value) && strlen($value) > 0 && htmlspecialchars($value, ENT_QUOTES) === '') {
                         $value = chunk_split(bin2hex($value), 64);
+
                     }
-                    $html .= '<tr><td>' . htmlspecialchars($key) . '</td><td style="font-family:monospace;">' . nl2br(htmlspecialchars($value)) . '</td>';
+                    */
+                    if($key == 'credentialPublicKey'){
+                        $html .= '<div class="col mx-auto lead fw-bold">Key: <span class="text-warning">' . htmlspecialchars($keyCount) . '</span></div><div class="col mx-auto small"><i>' . nl2br(htmlspecialchars($value)) . '</i></div>';
+                    }
+
                 }
-                $html .= '</table>';
+                $html .= '</div>';
             }
         } else {
-            $html .= '<p>There are no registrations in this session.</p>';
+            $html .= '<p class="text-light lead">There are no keys registered.</p>';
         }
-        $html .= '</body></html>';
+        $html .= '</div></div></body></html>';
 
         header('Content-Type: text/html');
         print $html;
@@ -393,6 +442,7 @@ try {
     // ------------------------------------
     // get root certs from FIDO Alliance Metadata Service
     // ------------------------------------
+    // I don't think we use this function anymore, but we're leaving it in now just in case
     } else if ($fn === 'queryFidoMetaDataService') {
         $mdsFolder = 'rootCertificates/mds';
         $success = false;
@@ -418,6 +468,8 @@ try {
         print(json_encode($return));
     }
 
+
+// something went wrong, the UI should print the error message
 } catch (Throwable $ex) {
     $return = new stdClass();
     $return->success = false;

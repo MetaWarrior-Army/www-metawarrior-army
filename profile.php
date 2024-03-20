@@ -180,7 +180,17 @@ if($userObj->nft_0_tx){
       <h3 class="float-md-start"><a href="/"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></a></h3>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#"><img src="/media/img/icon.png" width="32px"></a>
+          <a class="navbar-brand" href="/profile">
+          <?php
+              if($userObj->nft_0_tx){
+                  echo "<img width=\"25px\" class=\"rounded\" src=\"https://nft.metawarrior.army/avatars/".$userObj->address.".png\"></center>";
+              }
+              else{
+                  echo '<img src="/media/img/icon.png" width="32px"></a>';
+
+              }
+          ?> 
+          
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -201,6 +211,12 @@ if($userObj->nft_0_tx){
                           
                   ?>
                   <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+                      <span class="p-1 text-warning"><i class="p-1 fa-solid fa-key" aria-hidden="true"></i></span>
+                      <a class="dropdown-item text-light" href="/webauthn/_main/client">2FA Keys</a>
+                    </div>
+                  </li>
                   <li>
                     <div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
                       <span class="p-1"><i class="p-1 fa fa-sign-out" aria-hidden="true"></i></span>

@@ -46,17 +46,12 @@ else{
     <link rel="icon" type="image/x-icon" href="/media/img/logo.ico"></link>
 
     <meta name="theme-color" content="#712cf9">
-      
-    <!-- Custom styles for this template -->
-    <!-- <link href="/css/index.css" rel="stylesheet"> -->
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/187f3aa9d6.js" crossorigin="anonymous"></script>
   </head>
 
 
   <body class="d-flex h-100 text-center text-bg-dark">
     
-    <div class="d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
     
       <header class="mb-auto">
         <div>

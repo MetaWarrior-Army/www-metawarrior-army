@@ -7,6 +7,88 @@ $address = '0x7B93AED8239f85949FDCec66f1f9ED13a5026adD';
 // tiger192,4 is 32 rounds, we base64encode it as a string for the server API
 $hashedAddress = base64_encode(hash('tiger192,4', $address, true));
 
+// Start server session
+session_start();
+
+// This will validate our session or redirect our user to login
+// This page depends on an active session. We prefer the access_token for getting the /userinfo from the OAuth server
+if(!isset($_SESSION['access_token']) or isset($_SESSION['access_token']->error)){
+  // error_log("NO ACCESS TOKEN");
+  // we don't have an access_token
+  // do we have what we need to get an access_token?
+  header('Location: /login');
+  return;
+}
+if(!isset($_SESSION['userinfo']->username)){
+    // Userinfo for address and validating token
+    $header = ['Authorization: Bearer '.$_SESSION['access_token']->access_token, 'Content-type: application/json'];
+    $crl = curl_init($OAUTH_USERINFO_ENDPOINT);
+    curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
+    curl_setopt($crl,CURLOPT_RETURNTRANSFER, true);
+    try{
+      $userinfo_resp = curl_exec($crl);
+      $userinfo = json_decode($userinfo_resp);
+      curl_close($crl);
+    }
+    catch(Exception $e){
+      echo "Caught exception: ", $e->getMessage();
+    }
+  
+    // Get user's current obj from api
+    if(isset($userinfo)){
+      // Use access_token to get user information
+      $getUserPost = [
+        'address' => $userinfo->sub,
+      ];
+      $header = ['Authorization: Bearer '.$_SESSION['access_token']->access_token, 'Content-type: application/json'];
+      $crl = curl_init($GET_USER_API_URL);
+      //OIDC User Info
+      //$crl = curl_init("https://auth.metawarrior.army/userinfo");
+      curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
+      curl_setopt($crl, CURLOPT_POST,true);
+      curl_setopt($crl, CURLOPT_POSTFIELDS,json_encode($getUserPost));
+      curl_setopt($crl,CURLOPT_RETURNTRANSFER, true);
+      try{
+        $get_usr_resp = curl_exec($crl);
+        curl_close($crl);
+      }
+      catch(Exception $e){
+        echo "Caught exception: ", $e->getMessage();
+      }
+  
+      $userObj = json_decode($get_usr_resp);
+  
+      $_SESSION['userinfo'] = $userObj;
+    }
+}
+else{
+    $userObj = $_SESSION['userinfo'];
+}
+
+if(!isset($userObj->username)){
+    header("Location: /finish_mint");
+    return;
+}
+elseif(!isset($userObj->nft_0_tx)) {
+    header('Location: /finish_mint?username='.$userObj->username);
+    return;
+}
+
+// Okay we should have everything we need to know about the user at this point
+
+// Hash the user's address for transfer across the wire. base64 encode it for database storage
+// tiger192,4 is 32 rounds, we base64encode it as a string for the server API
+// We use this later in the javascript below
+if(isset($userObj->address)){
+    $hashedAddress = base64_encode(hash('tiger192,4', sprintf($userObj->address), true));
+}
+else{
+    error_log("Undefined address");
+    header('Location: /login');
+    return;
+}
+
+
 
 ?>
 
@@ -21,9 +103,16 @@ Author: admin@metawarrior.army
     <head>
         <title>MetaWarrior Army - WebAuthn</title>
         <meta charset="UTF-8">
+        <!-- Font Awseome -->
+        <script src="https://kit.fontawesome.com/041b1cce3a.js" crossorigin="anonymous"></script>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <!-- favicon -->
+        <link rel="icon" type="image/x-icon" href="/media/img/logo.ico"></link>
         <script>
 
         const address_hashed = '<?php echo $hashedAddress; ?>';
+        //console.log(address_hashed)
 
         /**
          * creates a new FIDO2 registration
@@ -131,7 +220,7 @@ Author: admin@metawarrior.army
                 // check server response
                 if (authenticatorAttestationServerResponse.success) {
                     reloadServerPreview();
-                    window.alert(authenticatorAttestationServerResponse.msg || 'login success');
+                    window.alert(authenticatorAttestationServerResponse.msg || 'Login success!');
                 } else {
                     throw new Error(authenticatorAttestationServerResponse.msg);
                 }
@@ -300,11 +389,6 @@ Author: admin@metawarrior.army
 
         </script>
         <style>
-            body {
-                font-family:sans-serif;
-                margin: 0 20px;
-                padding: 0;
-            }
             .splitter {
                 display: flex;
                 flex-direction: row;
@@ -317,55 +401,188 @@ Author: admin@metawarrior.army
                 min-width: 600px;
             }
             .splitter > .serverPreview {
-                width: 740px;
+                width: 1024px;
                 min-height: 700px;
                 margin: 0;
                 padding: 0;
-                border: 1px solid grey;
+                border: 0px solid grey;
                 display: flex;
                 flex-direction: column;
             }
-
             .splitter > .serverPreview iframe {
-                width: 700px;
+                width: 1024px;;
                 flex: 1;
                 border: 0;
             }
-
         </style>
     </head>
-    <body>
-        <h1 style="margin: 40px 10px 2px 0;">MetaWarrior Army WebAuthn Client</h1>
-        <div style="font-style: italic;">Register and check w/ server preview.</div>
-        <div class="splitter">
-            <div class="form">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>Dev page for <a href="https://github.com/lbuchs/WebAuthn">MetaWarrior Army</a> WebAuthn client.</div>
+    
+    <body class="d-flex h-100 text-center text-bg-dark">
+    
+        <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    
+            <header class="mb-auto">
                 <div>
-                    <div>&nbsp;</div>
-                    <table>
-                        <tbody><tr>
-                                <td>
-                                    <button type="button" onclick="createRegistration()">&#10133; new registration</button>
-                                </td>
-                                <td>
-                                    <button type="button" onclick="checkRegistration()">&#10068; check registration</button>
-                                </td>
-                                <td>
-                                    <button type="button" onclick="clearRegistration()">&#9249; clear all registrations</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div>&nbsp;</div>   
+                    <h3 class="float-md-start"><a href="/"><img src="/media/img/mwa_logo0.png" width="300px" class="img-fluid p-3"></a></h3>        
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark float-md-end">
+                        <div class="container-fluid">
+                        <a class="navbar-brand" href="/profile">
+                        <?php
+                            if($userObj->nft_0_tx){
+                                echo "<img width=\"25px\" class=\"rounded\" src=\"https://nft.metawarrior.army/avatars/".$userObj->address.".png\" /></center>";
+                            }
+                            else{
+                                echo '<img src="/media/img/icon.png" width="32px"></a>';
 
+                            }
+                        ?>    
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Profile
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-light bg-dark" aria-labelledby="navbarDropdown">
+
+                                <?php 
+                                    //var_dump($_SESSION['userinfo']);
+
+                                    if($userObj->nft_0_tx){
+                                        include('../../php/usermenu.php');
+                                    }
+                                        
+                                ?>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+                                    <span class="p-1 text-warning"><i class="p-1 fa-solid fa-key" aria-hidden="true"></i></span>
+                                    <a class="dropdown-item text-light" href="/webauthn/_main/client">2FA Keys</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon-square p-2 d-inline-flex align-items-center justify-content-center fs-8 flex-shrink-0 me-3">
+                                    <span class="p-1"><i class="p-1 fa fa-sign-out" aria-hidden="true"></i></span>
+                                    <a class="dropdown-item text-light" href="<?php echo $oauth_logout_url; ?>">Log out</a>
+                                    </div>
+                                </li>
+                                </ul>
+                            </li>
+                            <!-- Disabled -->
+                            <!--
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                            </li>
+                            -->
+                            </ul>
+                        </div>
+                        </div>
+                    </nav>
                 </div>
-            </div>
-            <div class="serverPreview">
-                <p style="margin-left:10px;font-weight: bold;">Here you can see what's saved on the server:</p>
-                <iframe src="server.php?fn=getStoredDataHtml&userId=<?php echo $hashedAddress; ?>" id="serverPreview"></iframe>
-            </div>
-        <div>
+
+            </header>
+
+            <main class="px-3 mb-5">
+                <div class="container px-4 py-5 rounded-3 shadow-lg" id="featured-3">
+                    <!--
+                    <div class="overflow-hidden mb-5" style="max-height: 30vh;">
+                        <img class="img-fluid rounded-3 border shadow-lg mb-4" src="/media/img/mission_banner.png" width="1080">
+                    </div>
+                    -->
+                    <h1 class="display-1 mb-5">🔑</h1>
+                    <h1 class="display-5 fw-bold">Add/Manage Security Keys</h1>
+                    <p class="lead border-bottom p-3">Use a physical security key or password manager that supports passkeys to enable 2nd Factor Authentication on your account.</p>
+                    <button onclick="createRegistration()" class="btn btn-lg btn-outline-info fw-bold">Register New Key</button>
+                    <button onclick="checkRegistration()" class="btn btn-lg btn-outline-info fw-bold">Check Key</button>
+                    <button onclick="clearRegistration()" class="btn btn-lg btn-outline-warning fw-bold">Delete All Keys</button>
+                    <div class="justify-content-center row mt-5 g-4 py-5 row-cols-1 row-cols-lg-3">
+                        <div class="w-100 justify-content-center splitter">
+                            <p class="small">Keys registered to <span class="text-info"><i><?php echo $userObj->address; ?>:</i></span></p>
+                            <div class="serverPreview">
+                                <iframe src="server.php?fn=getStoredDataHtml&userId=<?php echo $hashedAddress; ?>" id="serverPreview"></iframe>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="feature col">
+                            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                                <h1 class="display-4">✉️</h1>
+                            </div>
+                            <h3 class="fs-2">Email</h3>
+                            <p>Full service email platform with encrypted storage, spam filtering, 1 GB of space, folder rules and more.</p>
+                        </div>
+
+                        <div class="feature col">
+                            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                                <h1 class="display-4">📢</h1>
+                            </div>
+                            <h3 class="fs-2">Social Media</h3>
+                            <p>MetaWarrior Army owned Mastodon server on the global ActivityPub network with over 10 Million users.</p>
+                        </div>
+
+                        <div class="feature col">
+                            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                                <h1 class="display-4">💬</h1>
+                            </div>
+                            <h3 class="fs-2">Chat, Voice & Video</h3>
+                            <p>Encrypted chat, voice, and video calls using the Matrix open standard supporting encryption, groups, rooms, and spaces.</p>
+                        </div>
+
+                        <div class="feature col">
+                            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                                <h1 class="display-4">📝</h1>
+                            </div>
+                            <h3 class="fs-2">Discussion Forums</h3>
+                            <p>Open Source forums for long form discussions and threads supporting reply-by email.</p>
+                        </div>
+                        -->
+
+                    </div>
+                </div>
+
+                <div class="b-example-divider"></div>
+
+
+                <!-- Old client.php UI
+
+                <h1 style="margin: 40px 10px 2px 0;">MetaWarrior Army WebAuthn Client</h1>
+                <div style="font-style: italic;">Register and check w/ server preview.</div>
+                <div class="splitter">
+                    <div class="form">
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>Dev page for <a href="https://github.com/lbuchs/WebAuthn">MetaWarrior Army</a> WebAuthn client.</div>
+                        <div>
+                            <div>&nbsp;</div>
+                            <table>
+                                <tbody><tr>
+                                        <td>
+                                            <button type="button" onclick="createRegistration()">&#10133; new registration</button>
+                                        </td>
+                                        <td>
+                                            <button type="button" onclick="checkRegistration()">&#10068; check registration</button>
+                                        </td>
+                                        <td>
+                                            <button type="button" onclick="clearRegistration()">&#9249; clear all registrations</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>&nbsp;</div>   
+
+                        </div>
+                    </div>
+                    <div class="serverPreview">
+                        <p style="margin-left:10px;font-weight: bold;">Here you can see what's saved on the server:</p>
+                        <iframe src="server.php?fn=getStoredDataHtml&userId=" id="serverPreview"></iframe>
+                    </div>
+                <div>
+                -->
+            </main>
+
+        </div>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     </body>
 </html>
